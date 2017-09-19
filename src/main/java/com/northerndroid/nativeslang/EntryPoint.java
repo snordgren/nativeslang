@@ -3,8 +3,10 @@ package com.northerndroid.nativeslang;
 import com.northerndroid.nativeslang.model.Comment;
 import com.northerndroid.nativeslang.model.Post;
 import com.northerndroid.nativeslang.model.User;
+import com.northerndroid.nativeslang.view.CommonmarkMarkdownConverter;
 import com.northerndroid.nativeslang.view.IndexPage;
 import com.northerndroid.nativeslang.view.LanguagePage;
+import com.northerndroid.nativeslang.view.MarkdownConverter;
 import com.northerndroid.nativeslang.view.PostPage;
 import com.northerndroid.nativeslang.view.SignInPage;
 import com.northerndroid.nativeslang.view.ViewPostPage;
@@ -26,6 +28,8 @@ public class EntryPoint {
 		Database database = Database.newInFile("test/test");
 		externalStaticFileLocation("resources/public/");
 		port(8080);
+
+		MarkdownConverter markdownConverter = new CommonmarkMarkdownConverter();
 
 		get("/", (req, res) ->
 				new IndexPage(req.session().attribute("username") != null)
@@ -76,8 +80,10 @@ public class EntryPoint {
 						if (database.hasPost(language.toLowerCase(), postId)) {
 							Post post = database.getPost(language.toLowerCase(), postId);
 							List<Comment> comments = database.getComments(post);
-							return new ViewPostPage(post, comments, isLoggedIn(req))
-									.render().toString();
+							return new ViewPostPage(markdownConverter,
+									post,
+									comments,
+									isLoggedIn(req)).render().toString();
 						}
 					}
 

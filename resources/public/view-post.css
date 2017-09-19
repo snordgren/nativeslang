@@ -22,6 +22,14 @@ div.comment-view {
 	margin-bottom: 0.5vw;
 }
 
+div.comment-view a {
+	color: #2a5db0;
+}
+
+div.comment-view a:hover {
+	color: #2200CC;
+}
+
 #comment-form {
 	margin-bottom: 5vh;
 }

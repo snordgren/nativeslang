@@ -29,7 +29,7 @@ public class Database {
 			getUser(resultSet.getLong("poster")),
 			resultSet.getString("language"),
 			unescape(resultSet.getString("title")),
-			unescape(resultSet.getString("description")));
+			resultSet.getString("description"));
 	private final RowMapper<User> userMapper = (rs, rowNum) -> new User(
 			rs.getLong("id"),
 			rs.getString("username"),
@@ -73,7 +73,7 @@ public class Database {
 		template.update(comment.insert(
 				into("post_id", post.getId()),
 				into("user_id", user.getId()),
-				into("text", text)));
+				into("text", escape(text))));
 	}
 
 	public void createPost(String language,

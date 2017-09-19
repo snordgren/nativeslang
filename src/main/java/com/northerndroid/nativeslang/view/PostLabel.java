@@ -16,6 +16,6 @@ public class PostLabel implements Component {
 	public ContainerTag render() {
 		return div(attrs(".post-label"),
 				p(a(attrs(".post-title"), post.getTitle()).withHref(post.getUrl())),
-				p(attrs(".post-label-info"), text("by "), i(a(post.getPoster().getUsername()))));
+				p(attrs(".post-label-info"), text("by "), a(post.getPoster().getUsername())));
 	}
 }

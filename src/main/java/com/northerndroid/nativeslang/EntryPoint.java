@@ -38,8 +38,8 @@ public class EntryPoint {
 		Arrays.stream(Application.languages).forEach(language -> {
 			PostPage postPage = new PostPage(language);
 
-			get("/" + language.toLowerCase(), (req, res) -> {
-				List<Post> posts = database.getPostsByLanguage(language.toLowerCase());
+			get("/" + language, (req, res) -> {
+				List<Post> posts = database.getPostsByLanguage(language);
 				LanguagePage languagePage = new LanguagePage(language, posts, isLoggedIn(req));
 				return languagePage.render().toString();
 			});

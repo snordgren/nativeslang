@@ -2,6 +2,7 @@ package com.northerndroid.nativeslang.view;
 
 import com.northerndroid.nativeslang.Application;
 import j2html.tags.ContainerTag;
+import org.apache.commons.text.WordUtils;
 
 import java.util.Arrays;
 
@@ -14,7 +15,7 @@ public class IndexPage extends AbstractPage {
 	}
 
 	private LanguageButton createLanguageButton(String language) {
-		return new LanguageButton(language,
+		return new LanguageButton(WordUtils.capitalize(language),
 				"/images/" + language.toLowerCase() + ".svg",
 				"/" + language.toLowerCase());
 	}

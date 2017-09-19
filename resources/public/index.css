@@ -32,6 +32,10 @@ main div {
     width: auto;
 }
 
+footer {
+    margin-top: 20vh;
+}
+
 p.copyright {
     color: #777;
 }

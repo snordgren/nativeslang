@@ -1,6 +1,7 @@
 /* Reset */
 
-a, button, h1, h2, h3, h4, h5, h6, p, li, ul, main, header, footer, body, textarea, input, img, form {
+a, button, h1, h2, h3, h4, h5, h6, p, li, ul, main, header, footer, body, textarea, input, img, form,
+blockquote {
 	border: none;
 	margin: 0;
 	padding: 0;
@@ -102,4 +103,12 @@ section.topic {
 
 footer ul li {
     margin: 0 0.75vw;
+}
+
+blockquote {
+	margin-left: 2vw;
+	padding-left: 1vw;
+	margin-top: 3vh;
+	margin-bottom: 3vh;
+	border-left: 3px solid gray;
 }

@@ -25,13 +25,13 @@ public class Database {
 			resultSet.getLong("id"),
 			getPost(resultSet.getLong("post_id")),
 			getUser(resultSet.getLong("user_id")),
-			resultSet.getString("text"));
+			unescape(resultSet.getString("text")));
 	private final RowMapper<Post> postMapper = (resultSet, rowNum) -> new Post(
 			resultSet.getLong("id"),
 			getUser(resultSet.getLong("poster")),
 			resultSet.getString("language"),
 			unescape(resultSet.getString("title")),
-			resultSet.getString("description"));
+			unescape(resultSet.getString("description")));
 	private final RowMapper<User> userMapper = (rs, rowNum) -> new User(
 			rs.getLong("id"),
 			rs.getString("username"),
@@ -77,7 +77,7 @@ public class Database {
 			template.update(comment.insert(
 					into("post_id", post.getId()),
 					into("user_id", user.getId()),
-					into("text", escape(sanitizedText))));
+					into("text", sanitizedText)));
 		}
 	}
 
@@ -94,8 +94,8 @@ public class Database {
 			template.update(post.insert(
 					into("poster", posterId),
 					into("language", language),
-					into("title", escape(sanitizedTitle)),
-					into("description", escape(sanitizedDescription))));
+					into("title", sanitizedTitle),
+					into("description", sanitizedDescription)));
 		}
 	}
 
@@ -107,10 +107,6 @@ public class Database {
 
 	private String encryptPassword(String password) {
 		return passwordEncryptor.encryptPassword(password);
-	}
-
-	private String escape(String input) {
-		return StringEscapeUtils.escapeXml11(input);
 	}
 
 	public List<Comment> getComments(Post post) {

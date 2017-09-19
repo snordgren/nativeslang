@@ -1,5 +1,6 @@
 package com.northerndroid.nativeslang.view;
 
+import com.northerndroid.nativeslang.Database;
 import j2html.tags.ContainerTag;
 import j2html.tags.EmptyTag;
 
@@ -9,7 +10,7 @@ public class SignInForm implements Component {
 	@Override
 	public ContainerTag render() {
 		EmptyTag username = input()
-				.attr("pattern", "[a-zA-Z0-9]+")
+				.attr("pattern", Database.USERNAME_PATTERN)
 				.withName("username")
 				.withPlaceholder("Username")
 				.withType("text")

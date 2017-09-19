@@ -21,6 +21,7 @@ import java.util.List;
 import static com.northerndroid.nativeslang.sql.SQLBuilder.*;
 
 public class Database {
+	public static final String USERNAME_PATTERN = "[a-zA-Z0-9]+";
 	private final RowMapper<Comment> commentMapper = (resultSet, rowNum) -> new Comment(
 			resultSet.getLong("id"),
 			getPost(resultSet.getLong("post_id")),
@@ -100,9 +101,11 @@ public class Database {
 	}
 
 	public void createUser(String username, String password) {
-		template.update(user.insert(
-				into("username", username),
-				into("password", encryptPassword(password))));
+		if (username.matches(USERNAME_PATTERN)) {
+			template.update(user.insert(
+					into("username", username),
+					into("password", encryptPassword(password))));
+		}
 	}
 
 	private String encryptPassword(String password) {
@@ -184,7 +187,9 @@ public class Database {
 	}
 
 	private String sanitize(String input) {
-		return Jsoup.clean(input, Whitelist.basic());
+		return Jsoup.clean(input, Whitelist.basic())
+				.replace("'", "&apos;")
+				.replace("\"", "&quot;");
 	}
 
 	private String unescape(String input) {

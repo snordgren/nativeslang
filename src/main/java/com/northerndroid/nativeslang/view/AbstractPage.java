@@ -31,7 +31,9 @@ public abstract class AbstractPage implements Component {
 				link().withRel("stylesheet").withHref("https://fonts.googleapis.com/css?family=Open+Sans|Pacifico"),
 				link().withRel("stylesheet").withHref("/style.css"),
 				link().withRel("stylesheet").withHref(localCss),
-				meta().withCharset("UTF-8"));
+				meta().withCharset("UTF-8"),
+				meta().withName("viewport")
+						.withContent("width=device-width, initial-scale=1"));
 	}
 
 	protected abstract ContainerTag mainTag();

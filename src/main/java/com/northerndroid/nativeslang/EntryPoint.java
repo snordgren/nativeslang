@@ -13,9 +13,14 @@ import com.northerndroid.nativeslang.view.ViewPostPage;
 import spark.Request;
 import spark.Route;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Properties;
 
 import static spark.Spark.*;
 
@@ -24,10 +29,32 @@ public class EntryPoint {
 		return req.session().attribute("username") != null;
 	}
 
+	private static Properties readProperties() {
+		Properties properties = new Properties();
+		properties.setProperty("port", "8080");
+		File file = new File("properties.xml");
+		if (file.exists()) {
+			try {
+				properties.loadFromXML(new FileInputStream(file));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				file.createNewFile();
+				properties.storeToXML(new FileOutputStream(file), "", "UTF-8");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return properties;
+	}
+
 	public static void main(String[] args) {
+		Properties properties = readProperties();
 		Database database = Database.newInFile("test/test");
 		externalStaticFileLocation("resources/public/");
-		port(8080);
+		port(Integer.parseInt(properties.getProperty("port")));
 
 		MarkdownConverter markdownConverter = new CommonmarkMarkdownConverter();
 

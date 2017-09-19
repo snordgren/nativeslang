@@ -3,6 +3,7 @@ input {
     border-radius: 4px;
     padding: 0.5vw;
     width: 25vw;
+    min-width: 200px;
 }
 
 input, button {
@@ -11,5 +12,13 @@ input, button {
 
 button {
     width: 12.25vw;
+    padding: 0.5vw;
+    min-width: 100px;
     margin-right: 0.5vw;
+}
+
+@media (max-width: 810px) {
+    button {
+        min-width: 200px;
+    }
 }

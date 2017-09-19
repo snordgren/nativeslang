@@ -1,7 +1,19 @@
 group 'com.northerndroid.nativeslang'
-version '1.0-SNAPSHOT'
+version '0.1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "com.northerndroid.nativeslang.EntryPoint"
+
+distributions {
+	main {
+
+		contents {
+			into('resources') { from('resources') }
+		}
+	}
+}
 
 sourceCompatibility = 1.8
 

@@ -32,6 +32,9 @@ public class EntryPoint {
 	private static Properties readProperties() {
 		Properties properties = new Properties();
 		properties.setProperty("port", "8080");
+		properties.setProperty("ssl", "true");
+		properties.setProperty("keystoreFile", "key.jks");
+		properties.setProperty("keystorePassword", "password");
 		File file = new File("properties.xml");
 		if (file.exists()) {
 			try {
@@ -55,6 +58,10 @@ public class EntryPoint {
 		Database database = Database.newInFile("test/test");
 		externalStaticFileLocation("resources/public/");
 		port(Integer.parseInt(properties.getProperty("port")));
+		if (Boolean.parseBoolean(properties.getProperty("ssl"))) {
+			secure(properties.getProperty("keystoreFile"),
+					properties.getProperty("keystorePassword"), null, null);
+		}
 
 		MarkdownConverter markdownConverter = new CommonmarkMarkdownConverter();
 

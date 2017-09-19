@@ -6,12 +6,12 @@ a.language {
     margin-left: 0.25vw;
     margin-right: 0.25vw;
     padding: 1vw;
-    width: 10vw;
 }
 
 a.language img {
     vertical-align: middle;
     width: 10vw;
+    min-width: 100px;
     border-radius: 4px;
 }
 
@@ -21,12 +21,15 @@ a.language h2 {
 }
 
 a.language h3 {
-    font-size: 20px;
+    font-size: 18px;
     margin-top: 1vw;
     text-align: center;
 }
 
-#languages {
+main div {
+    display: inline-block;
+    margin: 0 auto;
+    width: auto;
 }
 
 p.copyright {

@@ -11,6 +11,6 @@ public class Footer implements Component {
 				li(a("About").withHref("/about")),
 				li(a("Contact").withHref("/contact")),
 				li(a("FAQ").withHref("/faq"))),
-				p("Copyright © 2017 Nativeslang").withClass("copyright"));
+				p(rawHtml("Copyright &copy; 2017 Nativeslang")).withClass("copyright"));
 	}
 }

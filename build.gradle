@@ -27,7 +27,6 @@ dependencies {
 	compile "org.springframework:spring-jdbc:4.3.10.RELEASE"
 	compile "org.hsqldb:hsqldb:2.4.0"
 	compile "org.apache.commons:commons-text:1.1"
-	compile "org.jasypt:jasypt:1.9.2"
 	compile "org.slf4j:slf4j-simple:1.7.25"
 	compile "com.atlassian.commonmark:commonmark:0.10.0"
 	compile "com.atlassian.commonmark:commonmark-ext-gfm-strikethrough:0.10.0"

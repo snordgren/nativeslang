@@ -5,7 +5,6 @@ import com.northerndroid.nativeslang.model.Post;
 import com.northerndroid.nativeslang.model.User;
 import com.northerndroid.nativeslang.sql.Table;
 import org.apache.commons.text.StringEscapeUtils;
-import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -40,7 +39,6 @@ public class Database {
 
 	private final JdbcTemplate template;
 	private final Table comment, post, user;
-	private final StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
 
 	private Database(DataSource dataSource) {
 		template = new JdbcTemplate(dataSource);
@@ -67,7 +65,11 @@ public class Database {
 	}
 
 	private boolean comparePassword(String hash, String password) {
-		return passwordEncryptor.checkPassword(password, hash);
+		try {
+			return PasswordStorage.verifyPassword(password, hash);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public void createComment(Post post,
@@ -109,7 +111,11 @@ public class Database {
 	}
 
 	private String encryptPassword(String password) {
-		return passwordEncryptor.encryptPassword(password);
+		try {
+			return PasswordStorage.createHash(password);
+		} catch (PasswordStorage.CannotPerformOperationException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public List<Comment> getComments(Post post) {

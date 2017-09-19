@@ -12,6 +12,7 @@ import com.northerndroid.nativeslang.view.SignInPage;
 import com.northerndroid.nativeslang.view.ViewPostPage;
 import spark.Request;
 import spark.Route;
+import spark.Service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,8 +23,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
 
-import static spark.Spark.*;
-
 public class EntryPoint {
 	private static boolean isLoggedIn(Request req) {
 		return req.session().attribute("username") != null;
@@ -31,9 +30,10 @@ public class EntryPoint {
 
 	private static Properties readProperties() {
 		Properties properties = new Properties();
-		properties.setProperty("port", "8080");
+		properties.setProperty("httpPort", "8080");
+		properties.setProperty("httpsPort", "8181");
 		properties.setProperty("ssl", "true");
-		properties.setProperty("keystoreFile", "key.jks");
+		properties.setProperty("keystoreFile", "/etc/letsencrypt/live/nativeslang.com/keystore.p12");
 		properties.setProperty("keystorePassword", "password");
 		File file = new File("properties.xml");
 		if (file.exists()) {
@@ -53,33 +53,24 @@ public class EntryPoint {
 		return properties;
 	}
 
-	public static void main(String[] args) {
-		Properties properties = readProperties();
-		Database database = Database.newInFile("test/test");
-		externalStaticFileLocation("resources/public/");
-		port(Integer.parseInt(properties.getProperty("port")));
-		if (Boolean.parseBoolean(properties.getProperty("ssl"))) {
-			secure(properties.getProperty("keystoreFile"),
-					properties.getProperty("keystorePassword"), null, null);
-		}
-
+	private static void create(Database database, Service service) {
 		MarkdownConverter markdownConverter = new CommonmarkMarkdownConverter();
-
-		get("/", (req, res) ->
+		service.externalStaticFileLocation("resources/public/");
+		service.get("/", (req, res) ->
 				new IndexPage(req.session().attribute("username") != null)
 						.render().toString());
-		get("/sign-in", (req, res) -> new SignInPage().render().toString());
+		service.get("/sign-in", (req, res) -> new SignInPage().render().toString());
 		Arrays.stream(Application.languages).forEach(language -> {
 			PostPage postPage = new PostPage(language);
 
-			get("/" + language, (req, res) -> {
+			service.get("/" + language, (req, res) -> {
 				List<Post> posts = database.getPostsByLanguage(language);
 				LanguagePage languagePage = new LanguagePage(language, posts, isLoggedIn(req));
 				return languagePage.render().toString();
 			});
 
-			path("/" + language.toLowerCase(), () -> {
-				get("/post", (req, res) -> {
+			service.path("/" + language.toLowerCase(), () -> {
+				service.get("/post", (req, res) -> {
 					boolean isLoggedIn = req.session().attribute("username") != null;
 					if (isLoggedIn) {
 						return postPage.render().toString();
@@ -89,7 +80,7 @@ public class EntryPoint {
 					}
 				});
 
-				post("/post", (req, res) -> {
+				service.post("/post", (req, res) -> {
 					String title = req.queryParams("title");
 					String description = req.queryParams("description");
 					String username = req.session().attribute("username");
@@ -124,9 +115,9 @@ public class EntryPoint {
 					res.redirect("/");
 					return "";
 				};
-				get("/post/:id", postRoute);
-				get("/post/:id/*", postRoute);
-				post("/post/:id/comment", (req, res) -> {
+				service.get("/post/:id", postRoute);
+				service.get("/post/:id/*", postRoute);
+				service.post("/post/:id/comment", (req, res) -> {
 					String id = req.params(":id");
 					if (!isLoggedIn(req)) {
 						res.redirect("/sign-in");
@@ -151,23 +142,27 @@ public class EntryPoint {
 			});
 		});
 
-		post("/register", (req, res) -> {
+		service.post("/register", (req, res) -> {
 			String username = req.queryParams("username");
 			String password = req.queryParams("password");
+			System.out.println("Register request received");
 			if (username == null || password == null) {
+				System.out.println("Username " + username + ", password " + password + ", one null.");
 				res.redirect("/");
 			} else if (database.isUsernameAvailable(username)) {
 				database.createUser(username, password);
 				req.session().attribute("username", username);
+				System.out.println("Logged in successfully.");
 				res.redirect("/");
 			} else {
-				res.redirect("/sign-in");
+				System.out.println("Username unavailable.");
+				res.redirect("/");
 			}
 
 			return "";
 		});
 
-		post("/sign-in", (req, res) -> {
+		service.post("/sign-in", (req, res) -> {
 			boolean isLoggedIn = req.session().attribute("username") != null;
 			if (isLoggedIn) {
 				res.redirect("/");
@@ -188,12 +183,28 @@ public class EntryPoint {
 			}
 		});
 
-		get("/sign-out", (req, res) -> {
+		service.get("/sign-out", (req, res) -> {
 			req.session().removeAttribute("username");
 			res.redirect("/");
 			return "";
 		});
+	}
 
-		//DatabaseManagerSwing.main(args);
+	public static void main(String[] args) {
+		Properties properties = readProperties();
+		Database database = Database.newInFile("test/test");
+
+		Service http = Service.ignite();
+		http.port(Integer.parseInt(properties.getProperty("httpPort")));
+		Service https = Service.ignite();
+		https.port(Integer.parseInt(properties.getProperty("httpsPort")));
+
+		if (Boolean.parseBoolean(properties.getProperty("ssl"))) {
+			https.secure(properties.getProperty("keystoreFile"),
+					properties.getProperty("keystorePassword"), null, null);
+		}
+
+
+		create(database, https);
 	}
 }

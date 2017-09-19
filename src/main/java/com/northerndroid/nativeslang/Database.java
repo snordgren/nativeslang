@@ -6,6 +6,8 @@ import com.northerndroid.nativeslang.model.User;
 import com.northerndroid.nativeslang.sql.Table;
 import org.apache.commons.text.StringEscapeUtils;
 import org.jasypt.util.password.StrongPasswordEncryptor;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -70,10 +72,13 @@ public class Database {
 	public void createComment(Post post,
 			User user,
 			String text) {
-		template.update(comment.insert(
-				into("post_id", post.getId()),
-				into("user_id", user.getId()),
-				into("text", escape(text))));
+		String sanitizedText = sanitize(text);
+		if (!sanitizedText.isEmpty()) {
+			template.update(comment.insert(
+					into("post_id", post.getId()),
+					into("user_id", user.getId()),
+					into("text", escape(sanitizedText))));
+		}
 	}
 
 	public void createPost(String language,
@@ -83,11 +88,15 @@ public class Database {
 		long posterId = template.queryForObject(
 				user.select("id").where(isEqual("username", username)),
 				Long.class);
-		template.update(post.insert(
-				into("poster", posterId),
-				into("language", language),
-				into("title", escape(title)),
-				into("description", escape(description))));
+		String sanitizedTitle = sanitize(title);
+		String sanitizedDescription = sanitize(description);
+		if (!sanitizedDescription.isEmpty() && !sanitizedTitle.isEmpty()) {
+			template.update(post.insert(
+					into("poster", posterId),
+					into("language", language),
+					into("title", escape(sanitizedTitle)),
+					into("description", escape(sanitizedDescription))));
+		}
 	}
 
 	public void createUser(String username, String password) {
@@ -176,6 +185,10 @@ public class Database {
 		return template.queryForObject(user.selectCountWhere(
 				isEqual("username", username)),
 				Integer.class) < 1;
+	}
+
+	private String sanitize(String input) {
+		return Jsoup.clean(input, Whitelist.basic());
 	}
 
 	private String unescape(String input) {

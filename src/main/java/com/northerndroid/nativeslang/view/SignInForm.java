@@ -9,6 +9,7 @@ public class SignInForm implements Component {
 	@Override
 	public ContainerTag render() {
 		EmptyTag username = input()
+				.attr("pattern", "[a-zA-Z0-9]+")
 				.withName("username")
 				.withPlaceholder("Username")
 				.withType("text")

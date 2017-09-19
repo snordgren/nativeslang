@@ -1,0 +1,15 @@
+input {
+    background-color: #f2f2f2;
+    border-radius: 4px;
+    padding: 0.5vw;
+    width: 25vw;
+}
+
+input, button {
+    margin-bottom: 0.5vw;
+}
+
+button {
+    width: 12.25vw;
+    margin-right: 0.5vw;
+}

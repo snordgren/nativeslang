@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Nativeslang - Make a Post</title>
+	<link rel="stylesheet" href="style.css"/>
+	<link rel="stylesheet" href="post.css"/>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Pacifico" rel="stylesheet">
+	<meta charset="UTF-8">
+</head>
+
+<body>
+<header>
+	<a class="header" href="/">
+		<h1>Nativeslang</h1>
+	</a>
+</header>
+<main>
+	<section class="topic">
+		<h1>Post</h1>
+		<p>Create a new post in <i>English</i>.</p>
+	</section>
+
+	<form id="submission-form" action="/submit" method="post">
+		<input placeholder="Enter title..." class="text" type="text" name="title" required/><br/>
+		<textarea form="submission-form" name="description" placeholder="Enter description..." required></textarea><br/>
+		<button class="submit-button">Submit</button>
+	</form>
+</main>
+</body>
+
+</html>

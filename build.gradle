@@ -1,0 +1,22 @@
+group 'com.northerndroid.nativeslang'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "com.sparkjava:spark-core:2.6.0"
+	compile "com.j2html:j2html:1.2.0"
+	compile "org.springframework:spring-jdbc:4.3.10.RELEASE"
+	compile "org.hsqldb:hsqldb:2.4.0"
+	compile "org.apache.commons:commons-text:1.1"
+	compile "org.jasypt:jasypt:1.9.2"
+	compile "org.slf4j:slf4j-simple:1.7.25"
+
+	testCompile "junit:junit:4.12"
+}

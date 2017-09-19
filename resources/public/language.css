@@ -1,0 +1,22 @@
+div.post-label {
+	background-color: #f2f2f2;
+	border-radius: 8px;
+	margin-bottom: 0.5vw;
+	padding: 1vw;
+	width: 30vw;
+	text-align: left;
+	transition-duration: 0.2s;
+}
+
+.post-button {
+	display: block;
+	margin-bottom: 0.5vw;
+}
+
+div.post-label:hover a.post-title {
+	color: blue;
+}
+
+p.post-label-info {
+	font-size: 12px;
+}

@@ -1,0 +1,7 @@
+button.submit-button, textarea, input {
+    margin-bottom: 1vw;
+}
+
+textarea, input {
+    width: 100%;    
+}

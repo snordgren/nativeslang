@@ -1,0 +1,34 @@
+a.language {
+    display: inline-block;
+    background-color: #f2f2f2;
+    border-radius: 4px;
+    margin-bottom: 0.5vw;
+    margin-left: 0.25vw;
+    margin-right: 0.25vw;
+    padding: 1vw;
+    width: 10vw;
+}
+
+a.language img {
+    vertical-align: middle;
+    width: 10vw;
+    border-radius: 4px;
+}
+
+a.language h2 {
+    font-size: 24px;
+    display: inline;    
+}
+
+a.language h3 {
+    font-size: 20px;
+    margin-top: 1vw;
+    text-align: center;
+}
+
+#languages {
+}
+
+p.copyright {
+    color: #777;
+}

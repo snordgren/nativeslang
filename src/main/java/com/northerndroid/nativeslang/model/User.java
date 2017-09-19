@@ -1,0 +1,24 @@
+package com.northerndroid.nativeslang.model;
+
+public class User {
+	private final long id;
+	private final String username, password;
+
+	public User(long id, String username, String password) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+}

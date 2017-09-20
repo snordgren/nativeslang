@@ -194,6 +194,10 @@ public class EntryPoint {
 			res.redirect("/");
 			return "";
 		});
+
+		service.after((req, res) -> {
+			res.header("Content-Encoding", "gzip");
+		});
 	}
 
 	public static void main(String[] args) {

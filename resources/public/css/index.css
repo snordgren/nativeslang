@@ -32,10 +32,6 @@ main div {
     width: auto;
 }
 
-p.copyright {
-    color: #777;
-}
-
 div.language-container {
 	display: inline;
 	width: auto;

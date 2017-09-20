@@ -115,3 +115,7 @@ blockquote {
 	margin-bottom: 3vh;
 	border-left: 3px solid gray;
 }
+
+p.copyright {
+    color: #777;
+}

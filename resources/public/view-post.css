@@ -51,4 +51,6 @@ button.format-button {
 	margin-right: 0.5vw;
 	width: 3vw;
 	height: 3vw;
+	min-width: 38px;
+	min-height: 38px;
 }

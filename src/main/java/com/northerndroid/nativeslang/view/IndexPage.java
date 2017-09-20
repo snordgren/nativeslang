@@ -16,7 +16,7 @@ public class IndexPage extends AbstractHeadedPage {
 
 	private LanguageButton createLanguageButton(String language) {
 		return new LanguageButton(WordUtils.capitalize(language),
-				"/images/" + language.toLowerCase() + ".svg",
+				"/svg/" + language.toLowerCase() + ".svg",
 				"/" + language.toLowerCase());
 	}
 

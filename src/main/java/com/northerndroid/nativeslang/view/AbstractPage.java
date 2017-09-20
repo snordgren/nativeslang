@@ -8,7 +8,7 @@ public abstract class AbstractPage implements Component {
 	private final String localCss, localJs;
 
 	public AbstractPage(String pageName) {
-		localCss = "/" + pageName + ".css";
+		localCss = "/css/" + pageName + ".css";
 		localJs = "/js/" + pageName + ".js";
 	}
 
@@ -17,7 +17,7 @@ public abstract class AbstractPage implements Component {
 	protected ContainerTag headTag() {
 		return head(title("Nativeslang"),
 				link().withRel("stylesheet").withHref("https://fonts.googleapis.com/css?family=Open+Sans|Pacifico"),
-				link().withRel("stylesheet").withHref("/style.css"),
+				link().withRel("stylesheet").withHref("/css/style.css"),
 				link().withRel("stylesheet").withHref(localCss),
 				script().withSrc("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js").attr("async"),
 				script().withSrc("https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.0/autosize.min.js").attr("async"),

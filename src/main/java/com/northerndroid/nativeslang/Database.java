@@ -142,8 +142,12 @@ public class Database {
 		}
 	}
 
-	public List<Comment> getComments(Post post) {
-		String query = comment.selectAll().where(isEqual("post_id", post.getId()));
+	public int getCommentCount(long postId) {
+		return getComments(postId).size();
+	}
+
+	public List<Comment> getComments(long postId) {
+		String query = comment.selectAll().where(isEqual("post_id", postId));
 		List<Comment> results = template.query(query, commentMapper);
 		results.removeIf(a -> isCommentHidden(a.getId()));
 		return results;

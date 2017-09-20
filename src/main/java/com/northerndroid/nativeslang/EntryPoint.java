@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 public class EntryPoint {
 	private static boolean isLoggedIn(Request req) {
@@ -65,7 +66,11 @@ public class EntryPoint {
 
 			service.get("/" + language, (req, res) -> {
 				List<Post> posts = database.getPostsByLanguage(language);
-				LanguagePage languagePage = new LanguagePage(language, posts, isLoggedIn(req));
+				List<Integer> commentCounts = posts.stream()
+						.map(p -> database.getCommentCount(p.getId()))
+						.collect(Collectors.toList());
+				LanguagePage languagePage = new LanguagePage(language, posts,
+						commentCounts, isLoggedIn(req));
 				return languagePage.render().toString();
 			});
 
@@ -104,7 +109,7 @@ public class EntryPoint {
 						long postId = Long.parseLong(id);
 						if (database.hasPost(language.toLowerCase(), postId)) {
 							Post post = database.getPost(language.toLowerCase(), postId);
-							List<Comment> comments = database.getComments(post);
+							List<Comment> comments = database.getComments(post.getId());
 							return new ViewPostPage(markdownConverter,
 									post,
 									comments,

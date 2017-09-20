@@ -7,15 +7,22 @@ import static j2html.TagCreator.*;
 
 public class PostLabel implements Component {
 	private final Post post;
+	private final int commentCount;
 
-	public PostLabel(Post post) {
+	public PostLabel(Post post, int commentCount) {
 		this.post = post;
+		this.commentCount = commentCount;
 	}
 
 	@Override
 	public ContainerTag render() {
+		ContainerTag infoLabel = p(
+				attrs(".post-label-info"),
+				text("by "),
+				a(post.getPoster().getUsername()),
+				text(", " + commentCount + " comments."));
 		return div(attrs(".post-label"),
 				p(a(attrs(".post-title"), post.getTitle()).withHref(post.getUrl())),
-				p(attrs(".post-label-info"), text("by "), a(post.getPoster().getUsername())));
+				infoLabel);
 	}
 }

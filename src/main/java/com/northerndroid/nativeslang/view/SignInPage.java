@@ -4,7 +4,7 @@ import j2html.tags.ContainerTag;
 
 import static j2html.TagCreator.main;
 
-public class SignInPage extends AbstractPage {
+public class SignInPage extends AbstractHeadedPage {
 	private final TopicSection topicSection = new TopicSection("Sign In", "Register a new account or sign in to an existing account.");
 	private final SignInForm signInForm = new SignInForm();
 

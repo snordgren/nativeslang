@@ -8,7 +8,7 @@ import java.util.List;
 
 import static j2html.TagCreator.main;
 
-public class LanguagePage extends AbstractPage {
+public class LanguagePage extends AbstractHeadedPage {
 	private final TopicSection topicSection;
 	private final PostButton postButton;
 	private final List<Post> posts;

@@ -4,7 +4,7 @@ import j2html.tags.ContainerTag;
 
 import static j2html.TagCreator.main;
 
-public class PostPage extends AbstractPage {
+public class PostPage extends AbstractHeadedPage {
 	private final TopicSection topicSection;
 	private final PostForm postForm = new PostForm();
 

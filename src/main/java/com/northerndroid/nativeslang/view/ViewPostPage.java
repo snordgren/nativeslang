@@ -8,7 +8,7 @@ import java.util.List;
 
 import static j2html.TagCreator.*;
 
-public class ViewPostPage extends AbstractPage {
+public class ViewPostPage extends AbstractHeadedPage {
 	private final Post post;
 	private final List<Comment> comments;
 	private final MarkdownConverter markdownConverter;

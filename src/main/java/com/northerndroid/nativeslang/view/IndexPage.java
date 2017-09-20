@@ -9,7 +9,7 @@ import java.util.Arrays;
 import static j2html.TagCreator.div;
 import static j2html.TagCreator.main;
 
-public class IndexPage extends AbstractPage {
+public class IndexPage extends AbstractHeadedPage {
 	public IndexPage(boolean isLoggedIn) {
 		super("index", isLoggedIn);
 	}

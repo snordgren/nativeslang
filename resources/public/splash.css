@@ -1,0 +1,49 @@
+section.splash {
+	background-image: url("/jpg/italy.jpg");
+	background-size: cover;
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+section.splash h1 {
+	color: white;
+	text-shadow: 1px 1px #373737;
+	text-align: center;
+	font-size: 200%;
+}
+
+section.splash a {
+	margin: 0 auto;
+	display: block;
+	text-align: center;
+	width: 20%;
+	min-width: 100px;
+	margin-top: 2vh;
+}
+
+div.splash-container {
+	margin: 0 10vw;
+}
+
+header {
+	background-color: rgba(0, 0, 0, 0);
+	position: fixed;
+	left: 0;
+	top: 0;
+}
+
+footer {
+	background-color: inherit;
+	margin-top: 0;
+}
+
+header h1 {
+	color: white;
+}
+
+main {
+	margin: 0;
+}

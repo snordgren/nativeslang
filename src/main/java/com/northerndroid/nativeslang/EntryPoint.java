@@ -3,12 +3,14 @@ package com.northerndroid.nativeslang;
 import com.northerndroid.nativeslang.model.Comment;
 import com.northerndroid.nativeslang.model.Post;
 import com.northerndroid.nativeslang.model.User;
+import com.northerndroid.nativeslang.view.AboutPage;
 import com.northerndroid.nativeslang.view.CommonmarkMarkdownConverter;
 import com.northerndroid.nativeslang.view.IndexPage;
 import com.northerndroid.nativeslang.view.LanguagePage;
 import com.northerndroid.nativeslang.view.MarkdownConverter;
 import com.northerndroid.nativeslang.view.PostPage;
 import com.northerndroid.nativeslang.view.SignInPage;
+import com.northerndroid.nativeslang.view.SplashPage;
 import com.northerndroid.nativeslang.view.ViewPostPage;
 import spark.Request;
 import spark.Route;
@@ -57,9 +59,16 @@ public class EntryPoint {
 	private static void create(Database database, Service service) {
 		MarkdownConverter markdownConverter = new CommonmarkMarkdownConverter();
 		service.externalStaticFileLocation("resources/public/");
-		service.get("/", (req, res) ->
-				new IndexPage(req.session().attribute("username") != null)
-						.render().toString());
+		service.get("/", (req, res) -> {
+			if (isLoggedIn(req)) {
+				return new IndexPage(req.session().attribute("username") != null)
+						.render()
+						.toString();
+			} else {
+				return new SplashPage().render().toString();
+			}
+		});
+		service.get("/about", (req, res) -> new AboutPage(isLoggedIn(req)).render().toString());
 		service.get("/sign-in", (req, res) -> new SignInPage().render().toString());
 		service.staticFiles.expireTime(60 * 30);
 		Arrays.stream(Application.languages).forEach(language -> {

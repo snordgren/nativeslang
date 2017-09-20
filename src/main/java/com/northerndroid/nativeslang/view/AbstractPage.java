@@ -5,23 +5,14 @@ import j2html.tags.ContainerTag;
 import static j2html.TagCreator.*;
 
 public abstract class AbstractPage implements Component {
-	private final Header header;
-	private final Footer footer = new Footer();
 	private final String localCss, localJs;
 
-	public AbstractPage(String pageName, boolean isLoggedIn) {
+	public AbstractPage(String pageName) {
 		localCss = "/" + pageName + ".css";
 		localJs = "/js/" + pageName + ".js";
-		header = new Header(isLoggedIn);
 	}
 
-	protected ContainerTag bodyTag() {
-		return body(
-				header.render(),
-				mainTag(),
-				footer.render(),
-				script("main();"));
-	}
+	protected abstract ContainerTag bodyTag();
 
 	protected ContainerTag headTag() {
 		return head(title("Nativeslang"),
@@ -36,8 +27,6 @@ public abstract class AbstractPage implements Component {
 				meta().withName("viewport")
 						.withContent("width=device-width, initial-scale=1"));
 	}
-
-	protected abstract ContainerTag mainTag();
 
 	public ContainerTag render() {
 		return html(headTag(), bodyTag());

@@ -16,9 +16,10 @@ public class CommentView implements Component {
 
 	@Override
 	public ContainerTag render() {
+		String author = comment.getUser().getUsername();
 		return div(
 				rawHtml(markdownConverter.convert(comment.getText())),
-				p("by " + comment.getUser().getUsername()).withClass("author"))
+				p("by " + author + " as " + comment.getId() + ".").withClass("author"))
 				.withClass("comment-view");
 	}
 }

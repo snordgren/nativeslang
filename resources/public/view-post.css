@@ -33,3 +33,12 @@ div.comment-view a:hover {
 #comment-form {
 	margin-bottom: 5vh;
 }
+
+#delete-button {
+	background-color: #ff420e;
+	margin-bottom: 0.5vw;
+}
+
+#delete-button:hover {
+	background-color: #ff723e;
+}

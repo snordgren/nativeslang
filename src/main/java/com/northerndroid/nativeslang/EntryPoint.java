@@ -204,7 +204,12 @@ public class EntryPoint {
 					properties.getProperty("keystorePassword"), null, null);
 		}
 
-
+		http.get("/*", (req, res) -> {
+			res.redirect("https://nativeslang.com");
+			return "";
+		});
 		create(database, https);
+
+		new Application(database).run();
 	}
 }

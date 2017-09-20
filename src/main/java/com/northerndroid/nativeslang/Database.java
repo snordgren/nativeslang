@@ -38,7 +38,7 @@ public class Database {
 			rs.getString("password"));
 
 	private final JdbcTemplate template;
-	private final Table comment, post, user;
+	private final Table comment, hiddenComment, hiddenPost, post, superUser, user;
 
 	private Database(DataSource dataSource) {
 		template = new JdbcTemplate(dataSource);
@@ -48,19 +48,28 @@ public class Database {
 				bigint("post_id"),
 				bigint("user_id"),
 				varchar("text", 1024 * 5));
+		hiddenComment = table("hidden_comment",
+				bigint("comment_id"));
+		hiddenPost = table("hidden_post",
+				bigint("post_id"));
 		post = table("post",
 				bigint("id").primaryKey(),
 				bigint("poster"),
 				varchar("language", 128),
 				varchar("title", 1024),
 				varchar("description", 1024 * 10));
+		superUser = table("super_user",
+				bigint("user_id"));
 		user = table("user",
 				bigint("id").primaryKey(),
 				varchar("username", 256),
 				varchar("password", 256));
 
 		template.update(comment.create());
+		template.update(hiddenComment.create());
+		template.update(hiddenPost.create());
 		template.update(post.create());
+		template.update(superUser.create());
 		template.update(user.create());
 	}
 
@@ -84,6 +93,14 @@ public class Database {
 		}
 	}
 
+	public void createHiddenComment(long commentId) {
+		template.update(hiddenComment.insert(into("comment_id", commentId)));
+	}
+
+	public void createHiddenPost(long postId) {
+		template.update(hiddenPost.insert(into("post_id", postId)));
+	}
+
 	public void createPost(String language,
 			String username,
 			String title,
@@ -100,6 +117,11 @@ public class Database {
 					into("title", sanitizedTitle),
 					into("description", sanitizedDescription)));
 		}
+	}
+
+	public void createSuperUser(String username) {
+		User user = getUser(username);
+		template.update(superUser.insert(into("user_id", user.getId())));
 	}
 
 	public void createUser(String username, String password) {
@@ -120,7 +142,9 @@ public class Database {
 
 	public List<Comment> getComments(Post post) {
 		String query = comment.selectAll().where(isEqual("post_id", post.getId()));
-		return template.query(query, commentMapper);
+		List<Comment> results = template.query(query, commentMapper);
+		results.removeIf(a -> isCommentHidden(a.getId()));
+		return results;
 	}
 
 	public Post getPost(String language, long id) {
@@ -144,7 +168,9 @@ public class Database {
 				.selectAll()
 				.orderBy(descending("id"))
 				.where(isEqual("language", language));
-		return template.query(query, postMapper);
+		List<Post> result = template.query(query, postMapper);
+		result.removeIf(a -> isPostHidden(a.getId()));
+		return result;
 	}
 
 	public User getUser(long id) {
@@ -177,6 +203,11 @@ public class Database {
 				Integer.class) > 0;
 	}
 
+	public boolean isCommentHidden(long comment) {
+		return template.queryForObject(hiddenComment.selectCountWhere(
+				isEqual("comment_id", comment)), Integer.class) > 0;
+	}
+
 	public boolean isLoginValid(String username, String password) {
 		if (hasUser(username)) {
 			User user = getUser(username);
@@ -184,6 +215,17 @@ public class Database {
 		} else {
 			return false;
 		}
+	}
+
+	public boolean isPostHidden(long post) {
+		return template.queryForObject(hiddenPost.selectCountWhere(
+				isEqual("post_id", post)), Integer.class) > 0;
+	}
+
+	public boolean isSuperUser(String username) {
+		User user = getUser(username);
+		return template.queryForObject(superUser.selectCountWhere(
+				isEqual("user_id", user.getId())), Integer.class) > 0;
 	}
 
 	public boolean isUsernameAvailable(String username) {

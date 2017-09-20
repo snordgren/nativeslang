@@ -31,7 +31,7 @@ public abstract class AbstractPage implements Component {
 				script().withSrc("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js").attr("async"),
 				script().withSrc("https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.0/autosize.min.js").attr("async"),
 				script().withSrc("https://cdnjs.cloudflare.com/ajax/libs/caret/1.0.0/jquery.caret.min.js").attr("async"),
-				script().withSrc(localJs),
+				script().withSrc(localJs).attr("async"),
 				meta().withCharset("UTF-8"),
 				meta().withName("viewport")
 						.withContent("width=device-width, initial-scale=1"));

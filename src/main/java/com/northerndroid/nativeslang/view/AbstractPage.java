@@ -28,9 +28,9 @@ public abstract class AbstractPage implements Component {
 				link().withRel("stylesheet").withHref("https://fonts.googleapis.com/css?family=Open+Sans|Pacifico"),
 				link().withRel("stylesheet").withHref("/style.css"),
 				link().withRel("stylesheet").withHref(localCss),
-				script().withSrc("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"),
-				script().withSrc("https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.0/autosize.min.js"),
-				script().withSrc("https://cdnjs.cloudflare.com/ajax/libs/caret/1.0.0/jquery.caret.min.js"),
+				script().withSrc("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js").attr("async"),
+				script().withSrc("https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.0/autosize.min.js").attr("async"),
+				script().withSrc("https://cdnjs.cloudflare.com/ajax/libs/caret/1.0.0/jquery.caret.min.js").attr("async"),
 				script().withSrc(localJs),
 				meta().withCharset("UTF-8"),
 				meta().withName("viewport")

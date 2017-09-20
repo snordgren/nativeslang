@@ -61,6 +61,7 @@ public class EntryPoint {
 				new IndexPage(req.session().attribute("username") != null)
 						.render().toString());
 		service.get("/sign-in", (req, res) -> new SignInPage().render().toString());
+		service.staticFiles.expireTime(60 * 30);
 		Arrays.stream(Application.languages).forEach(language -> {
 			PostPage postPage = new PostPage(language);
 

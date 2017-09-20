@@ -1,7 +1,7 @@
 div.post-label {
 	background-color: #f2f2f2;
 	border-radius: 8px;
-	margin-bottom: 0.5vw;
+	margin-bottom: 5px;
 	padding: 1vw;
 	width: 100%
 	display: inline-block;
@@ -12,7 +12,7 @@ div.post-label {
 
 .post-button {
 	display: block;
-	margin-bottom: 0.5vw;
+	margin-bottom: 5px;
 }
 
 div.post-label:hover a.post-title {
@@ -22,10 +22,3 @@ div.post-label:hover a.post-title {
 p.post-label-info {
 	font-size: 12px;
 }
-
-@media (max-width: 400px) {
-    div.post-label {
-
-    }
-}
-

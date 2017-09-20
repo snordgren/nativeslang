@@ -111,11 +111,13 @@ public class Database {
 		String sanitizedTitle = sanitize(title);
 		String sanitizedDescription = sanitize(description);
 		if (!sanitizedDescription.isEmpty() && !sanitizedTitle.isEmpty()) {
-			template.update(post.insert(
-					into("poster", posterId),
-					into("language", language),
-					into("title", sanitizedTitle),
-					into("description", sanitizedDescription)));
+			if (!hasPost(posterId, language, sanitizedTitle, sanitizedDescription)) {
+				template.update(post.insert(
+						into("poster", posterId),
+						into("language", language),
+						into("title", sanitizedTitle),
+						into("description", sanitizedDescription)));
+			}
 		}
 	}
 
@@ -183,10 +185,8 @@ public class Database {
 		return template.queryForObject(query, userMapper);
 	}
 
-	public boolean hasUser(String username) {
-		return template.queryForObject(
-				user.selectCountWhere(isEqual("username", username)),
-				Integer.class) > 0;
+	private boolean has(String sql) {
+		return template.queryForObject(sql, Integer.class) > 0;
 	}
 
 	public boolean hasPost(long id) {
@@ -200,6 +200,20 @@ public class Database {
 				post.selectCountWhere(
 						isEqual("language", language),
 						isEqual("id", id)),
+				Integer.class) > 0;
+	}
+
+	public boolean hasPost(long poster, String language, String title, String desc) {
+		return has(post.selectCountWhere(
+				isEqual("poster", poster),
+				isEqual("language", language),
+				isEqual("title", title),
+				isEqual("description", desc)));
+	}
+
+	public boolean hasUser(String username) {
+		return template.queryForObject(
+				user.selectCountWhere(isEqual("username", username)),
 				Integer.class) > 0;
 	}
 

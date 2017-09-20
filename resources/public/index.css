@@ -36,6 +36,11 @@ p.copyright {
     color: #777;
 }
 
+div.language-container {
+	display: inline;
+	width: auto;
+}
+
 @media (max-width: 400px) {
     a.language {
     	width: 46%;

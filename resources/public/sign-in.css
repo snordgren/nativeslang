@@ -19,9 +19,6 @@ button {
     input, button {
     	width: 100%;
     	max-width: 250px;
-    }
-    input {
-
-
+    	padding: 5px;
     }
 }

@@ -16,6 +16,7 @@ public class PostForm implements Component {
 				.attr("autocomplete", "off")
 				.isRequired();
 		ContainerTag description = textarea()
+				.withId("description")
 				.withName("description")
 				.withPlaceholder("Enter description...")
 				.attr("autocomplete", "off")

@@ -15,7 +15,7 @@ public class LanguagePage extends AbstractPage {
 	private final List<Post> posts;
 
 	public LanguagePage(String language, List<Post> posts, boolean isLoggedIn) {
-		super("/language.css", isLoggedIn);
+		super("language", isLoggedIn);
 		String uppercaseLang = Character.toUpperCase(language.charAt(0)) + language.substring(1);
 		this.posts = posts;
 		postButton = new PostButton("Make a Post", "/" + language.toLowerCase() + "/post");

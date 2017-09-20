@@ -9,7 +9,7 @@ public class PostPage extends AbstractPage {
 	private final PostForm postForm = new PostForm();
 
 	public PostPage(String language) {
-		super("/post.css", true);
+		super("post", true);
 		String uppercaseLang = Character.toUpperCase(language.charAt(0)) + language.substring(1);
 		topicSection = new TopicSection("Post", "Create a new post in " + uppercaseLang + ".");
 	}

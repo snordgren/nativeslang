@@ -11,7 +11,7 @@ import static j2html.TagCreator.main;
 
 public class IndexPage extends AbstractPage {
 	public IndexPage(boolean isLoggedIn) {
-		super("index.css", isLoggedIn);
+		super("index", isLoggedIn);
 	}
 
 	private LanguageButton createLanguageButton(String language) {

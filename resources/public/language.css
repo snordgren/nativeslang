@@ -3,7 +3,9 @@ div.post-label {
 	border-radius: 8px;
 	margin-bottom: 0.5vw;
 	padding: 1vw;
-	width: 30vw;
+	width: 100%
+	display: inline-block;
+	max-width: 400px;
 	text-align: left;
 	transition-duration: 0.2s;
 }
@@ -20,3 +22,10 @@ div.post-label:hover a.post-title {
 p.post-label-info {
 	font-size: 12px;
 }
+
+@media (max-width: 400px) {
+    div.post-label {
+
+    }
+}
+

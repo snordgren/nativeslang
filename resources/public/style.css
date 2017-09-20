@@ -58,6 +58,7 @@ header h1 {
 }
 
 footer {
+	margin-top: 20vh;
 	text-align: center;
 	padding: 1vw;
 }

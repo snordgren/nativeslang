@@ -32,10 +32,16 @@ main div {
     width: auto;
 }
 
-footer {
-    margin-top: 20vh;
-}
-
 p.copyright {
     color: #777;
+}
+
+@media (max-width: 400px) {
+    a.language {
+    	width: 46%;
+    }
+
+    a.language img {
+    	width: 100%;
+    }
 }

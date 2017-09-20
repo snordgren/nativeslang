@@ -15,15 +15,28 @@ public class CommentField implements Component {
 	@Override
 	public ContainerTag render() {
 		String formId = "comment-form";
+		ContainerTag bold = button(b("B"))
+				.attr("onclick", "onBoldClick();")
+				.withClass("format-button")
+				.withType("button");
+		ContainerTag italic = button(i("I"))
+				.attr("onclick", "onItalicClick();")
+				.withClass("format-button")
+				.withType("button");
+		ContainerTag strikeThrough = button(s("S"))
+				.attr("onclick", "onStrikeThroughClick();")
+				.withClass("format-button")
+				.withType("button");
 		ContainerTag text = textarea()
 				.attr("form", formId)
+				.withId("comment-text-area")
 				.withName("text")
 				.withPlaceholder("Write a comment...")
 				.isRequired();
 		ContainerTag submit = button("Submit")
 				.attr("formaction", post.getUrl() + "/comment")
 				.withType("submit");
-		return form(text, submit)
+		return form(bold, italic, strikeThrough, text, submit)
 				.withId(formId)
 				.withMethod("post");
 	}

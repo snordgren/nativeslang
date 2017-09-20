@@ -9,7 +9,7 @@ public class SignInPage extends AbstractPage {
 	private final SignInForm signInForm = new SignInForm();
 
 	public SignInPage() {
-		super("/sign-in.css", false);
+		super("sign-in", false);
 	}
 
 	@Override

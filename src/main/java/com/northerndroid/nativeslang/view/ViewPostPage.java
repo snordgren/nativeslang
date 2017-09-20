@@ -17,7 +17,7 @@ public class ViewPostPage extends AbstractPage {
 			Post post,
 			List<Comment> comments,
 			boolean isLoggedIn) {
-		super("/view-post.css", isLoggedIn);
+		super("view-post", isLoggedIn);
 		this.markdownConverter = markdownConverter;
 		this.comments = comments;
 		this.post = post;

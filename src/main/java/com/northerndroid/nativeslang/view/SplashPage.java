@@ -1,5 +1,6 @@
 package com.northerndroid.nativeslang.view;
 
+import com.northerndroid.nativeslang.util.DesignUtil;
 import j2html.tags.ContainerTag;
 
 import static j2html.TagCreator.*;
@@ -12,15 +13,20 @@ public class SplashPage extends AbstractHeadlessPage {
 		super("splash");
 	}
 
+	private ContainerTag getStarted() {
+		return a("Get Started")
+				.withClass("button")
+				.withHref("/sign-in");
+	}
+
 	private ContainerTag splashImg() {
 		ContainerTag message = h1(
 				text("Speak the language of everywhere."),
 				br(),
 				text("Become global."));
-		ContainerTag getStarted = a("Get Started")
-				.withClass("button")
-				.withHref("/sign-in");
-		ContainerTag splashContainer = div(message, getStarted)
+		ContainerTag splashContainer = div(
+				div(message).withClass("splash-container-flex"),
+				div(getStarted()).withClass("splash-container-flex"))
 				.withClass("splash-container");
 		return section(splashContainer)
 				.withClass("splash");
@@ -30,6 +36,8 @@ public class SplashPage extends AbstractHeadlessPage {
 	protected ContainerTag bodyTag() {
 		return body(header.render(),
 				splashImg(),
+				rawHtml(DesignUtil.loadHtml("splash-info")),
+				div(getStarted()).withClass("bottom-get-started-container"),
 				footer.render());
 	}
 }

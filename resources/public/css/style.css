@@ -73,6 +73,7 @@ button, a.button {
 	display: inline-block;
 	border-radius: 4px;
 	transition-duration: 0.2s;
+	text-align: center;
 }
 
 button:hover, a.button:hover {

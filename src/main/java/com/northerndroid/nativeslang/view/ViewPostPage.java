@@ -3,6 +3,7 @@ package com.northerndroid.nativeslang.view;
 import com.northerndroid.nativeslang.model.Comment;
 import com.northerndroid.nativeslang.model.Post;
 import j2html.tags.ContainerTag;
+import org.apache.commons.text.WordUtils;
 
 import java.util.List;
 
@@ -28,12 +29,20 @@ public class ViewPostPage extends AbstractHeadedPage {
 		String title = post.getTitle();
 		String description = markdownConverter.convert(post.getDescription());
 		String poster = post.getPoster().getUsername();
-		TopicSection topicSection = new TopicSection(title, " by " + poster + ".");
+		String language = post.getLanguage();
+		String capitalizedLang = WordUtils.capitalize(language);
+		ContainerTag posterTag = p(text("by " + poster + " in "), a(capitalizedLang)
+				.withClass("lang-link")
+				.withHref("/" + language));
+		ContainerTag topicSection = section(
+				h1(title),
+				posterTag)
+				.withClass("topic");
 		ContainerTag[] commentViews = comments.stream()
 				.map(a -> new CommentView(a, markdownConverter))
 				.map(CommentView::render)
 				.toArray(ContainerTag[]::new);
-		return main(topicSection.render(),
+		return main(topicSection,
 				div(rawHtml(description)).withClass("description"),
 				new CommentField(post).render(),
 				div(commentViews).withClass("comment-list"));

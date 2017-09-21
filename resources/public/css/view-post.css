@@ -54,3 +54,7 @@ button.format-button {
 	min-width: 38px;
 	min-height: 38px;
 }
+
+a.lang-link {
+	color: #2200CC;
+}

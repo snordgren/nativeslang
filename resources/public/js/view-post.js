@@ -15,4 +15,11 @@ function onBoldClick() { insert("**"); }
 
 function onItalicClick() { insert("*"); }
 
+function onQuote() {
+	const area = $("#comment-text-area");
+	const postText = $("#quote-button").data("post-text");
+	area.val(area.val() + postText);
+	area.focus();
+}
+
 function onStrikeThroughClick() { insert("~~"); }

@@ -8,7 +8,7 @@ div.description {
 
 textarea {
 	width: 100%;
-	margin-bottom: 0.5vw;
+	margin-bottom: 6px;
 }
 
 div.comment-list {
@@ -18,8 +18,8 @@ div.comment-list {
 div.comment-view {
 	background-color: #f2f2f2;
 	border-radius: 4px;
-	padding: 0.5vw;
-	margin-bottom: 0.5vw;
+	padding: 6px;
+	margin-bottom: 6px;
 }
 
 div.comment-view a {
@@ -37,7 +37,7 @@ div.comment-view a:hover {
 
 #delete-button {
 	background-color: #ff420e;
-	margin-bottom: 0.5vw;
+	margin-bottom: 6px;
 }
 
 #delete-button:hover {
@@ -47,12 +47,16 @@ div.comment-view a:hover {
 button.format-button {
 	padding: 0;
 	margin: 0;
-	margin-bottom: 0.5vw;
-	margin-right: 0.5vw;
+	margin-bottom: 6px;
+	margin-right: 6px;
 	width: 3vw;
 	height: 3vw;
 	min-width: 38px;
 	min-height: 38px;
+}
+
+#quote-button {
+	margin-right: 6px;
 }
 
 a.lang-link {

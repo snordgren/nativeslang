@@ -7,9 +7,11 @@ import static j2html.TagCreator.*;
 
 public class CommentField implements Component {
 	private final Post post;
+	private final String postText;
 
 	public CommentField(Post post) {
 		this.post = post;
+		this.postText = ">" + post.getDescription().replace("\n", "\n>") + "\n\n";
 	}
 
 	@Override
@@ -33,10 +35,15 @@ public class CommentField implements Component {
 				.withName("text")
 				.withPlaceholder("Write a comment...")
 				.isRequired();
+		ContainerTag quote = button("Quote")
+				.attr("onclick", "onQuote();")
+				.withData("post-text", postText)
+				.withId("quote-button")
+				.withType("button");
 		ContainerTag submit = button("Submit")
 				.attr("formaction", post.getUrl() + "/comment")
 				.withType("submit");
-		return form(bold, italic, strikeThrough, text, submit)
+		return form(bold, italic, strikeThrough, text, quote, submit)
 				.withId(formId)
 				.withMethod("post");
 	}

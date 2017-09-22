@@ -58,7 +58,10 @@ public class EntryPoint {
 
 	private static void create(Database database, Service service) {
 		MarkdownConverter markdownConverter = new CommonmarkMarkdownConverter();
-		service.externalStaticFileLocation("resources/public/");
+		service.staticFiles.externalLocation("resources/public/");
+		service.staticFiles.header("Content-Encoding", "gzip");
+		service.staticFiles.header("ETag", "0x123456");
+
 		service.get("/", (req, res) -> {
 			if (isLoggedIn(req)) {
 				return new IndexPage(req.session().attribute("username") != null)
@@ -206,6 +209,8 @@ public class EntryPoint {
 
 		service.after((req, res) -> {
 			res.header("Content-Encoding", "gzip");
+			System.out.println(req.uri());
+			//res.header("Cache-Control", )
 		});
 	}
 

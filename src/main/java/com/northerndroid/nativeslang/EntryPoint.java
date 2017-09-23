@@ -57,10 +57,14 @@ public class EntryPoint {
 	}
 
 	private static void create(Database database, Service service) {
+		final long expireTime = 60 * 60 * 24 * 30;
 		MarkdownConverter markdownConverter = new CommonmarkMarkdownConverter();
 		service.staticFiles.externalLocation("resources/public/");
+		service.staticFiles.expireTime(expireTime);
 		service.staticFiles.header("Content-Encoding", "gzip");
+		service.staticFiles.header("Cache-Control", "public, max-age=" + expireTime);
 		service.staticFiles.header("ETag", "0x123456");
+		service.staticFiles.header("Vary", "Accept-Encoding");
 
 		service.get("/", (req, res) -> {
 			if (isLoggedIn(req)) {
@@ -73,7 +77,6 @@ public class EntryPoint {
 		});
 		service.get("/about", (req, res) -> new AboutPage(isLoggedIn(req)).render().toString());
 		service.get("/sign-in", (req, res) -> new SignInPage().render().toString());
-		service.staticFiles.expireTime(60 * 30);
 		Arrays.stream(Application.languages).forEach(language -> {
 			PostPage postPage = new PostPage(language);
 

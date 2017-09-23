@@ -15,7 +15,7 @@ public class SplashPage extends AbstractHeadlessPage {
 
 	private ContainerTag getStarted() {
 		return a("Get Started")
-				.withClass("button")
+				.withClasses("button", "get-started")
 				.withHref("/sign-in");
 	}
 

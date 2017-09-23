@@ -1,4 +1,5 @@
 section.splash {
+	background-color: #615b57;
 	background-image: url("/jpg/italy.jpg");
 	background-size: cover;
 	height: 100vh;
@@ -16,7 +17,7 @@ section.splash h1 {
 	font-size: 200%;
 }
 
-a {
+a.get-started {
 	min-width: 100px;
 }
 

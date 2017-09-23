@@ -212,8 +212,6 @@ public class EntryPoint {
 
 		service.after((req, res) -> {
 			res.header("Content-Encoding", "gzip");
-			System.out.println(req.uri());
-			//res.header("Cache-Control", )
 		});
 	}
 

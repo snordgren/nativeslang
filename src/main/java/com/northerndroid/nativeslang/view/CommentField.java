@@ -37,11 +37,13 @@ public class CommentField implements Component {
 				.isRequired();
 		ContainerTag quote = button("Quote")
 				.attr("onclick", "onQuote();")
+				.withClasses("button", "bottom-button")
 				.withData("post-text", postText)
 				.withId("quote-button")
 				.withType("button");
 		ContainerTag submit = button("Submit")
 				.attr("formaction", post.getUrl() + "/comment")
+				.withClasses("button", "bottom-button")
 				.withType("submit");
 		return form(bold, italic, strikeThrough, text, quote, submit)
 				.withId(formId)

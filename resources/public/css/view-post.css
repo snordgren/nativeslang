@@ -62,3 +62,16 @@ button.format-button {
 a.lang-link {
 	color: #2200CC;
 }
+
+@media (max-width: 640px) {
+	button.bottom-button {
+		padding-left: 0;
+		padding-right: 0;
+		width: 49%;
+		margin-right: 0;
+	}
+
+	#quote-button {
+		margin-right: 2%;
+	}
+}

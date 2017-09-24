@@ -38,7 +38,13 @@ public class Database {
 			rs.getString("password"));
 
 	private final JdbcTemplate template;
-	private final Table comment, hiddenComment, hiddenPost, post, superUser, user;
+	private final Table comment,
+			hiddenComment,
+			hiddenPost,
+			post,
+			superUser,
+			user,
+			userDescription;
 
 	private Database(DataSource dataSource) {
 		template = new JdbcTemplate(dataSource);
@@ -63,7 +69,12 @@ public class Database {
 		user = table("user",
 				bigint("id").primaryKey(),
 				varchar("username", 256),
+				varchar("normalized_username", 256),
 				varchar("password", 256));
+		userDescription = table("user_description",
+				bigint("id").primaryKey(),
+				bigint("user_id"),
+				varchar("description", 1024 * 16));
 
 		template.update(comment.create());
 		template.update(hiddenComment.create());
@@ -71,6 +82,7 @@ public class Database {
 		template.update(post.create());
 		template.update(superUser.create());
 		template.update(user.create());
+		template.update(userDescription.create());
 	}
 
 	private boolean comparePassword(String hash, String password) {
@@ -130,6 +142,7 @@ public class Database {
 		if (username.matches(USERNAME_PATTERN)) {
 			template.update(user.insert(
 					into("username", username),
+					into("normalized_username", User.normalize(username)),
 					into("password", encryptPassword(password))));
 		}
 	}
@@ -185,8 +198,17 @@ public class Database {
 	}
 
 	public User getUser(String username) {
-		String query = user.selectAll().where(isEqual("username", username));
+		String query = user.selectAll().where(
+				isEqual("normalized_username", User.normalize(username)));
 		return template.queryForObject(query, userMapper);
+	}
+
+	public String getUserDescription(long userId) {
+		String query = userDescription.selectTop(1, "description")
+				.orderBy(descending("id"))
+				.where(isEqual("user_id", userId));
+		return template.queryForObject(query,
+				(results, row) -> results.getString("descriptionn"));
 	}
 
 	private boolean has(String sql) {
@@ -216,7 +238,13 @@ public class Database {
 	}
 
 	public boolean hasUser(String username) {
-		return has(user.selectCountWhere(isEqual("username", username)));
+		return has(user.selectCountWhere(
+				isEqual("normalized_username", User.normalize(username))));
+	}
+
+	public boolean hasUserDescription(long userId) {
+		return has(userDescription.selectCountWhere(
+				isEqual("user_id", userId)));
 	}
 
 	public boolean isCommentHidden(long comment) {
@@ -238,14 +266,8 @@ public class Database {
 
 	public boolean isSuperUser(String username) {
 		User user = getUser(username);
-		return template.queryForObject(superUser.selectCountWhere(
-				isEqual("user_id", user.getId())), Integer.class) > 0;
-	}
-
-	public boolean isUsernameAvailable(String username) {
-		return template.queryForObject(user.selectCountWhere(
-				isEqual("username", username)),
-				Integer.class) < 1;
+		return has(superUser.selectCountWhere(
+				isEqual("user_id", user.getId())));
 	}
 
 	private String sanitize(String input) {

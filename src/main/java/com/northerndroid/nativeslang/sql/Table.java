@@ -72,6 +72,11 @@ public class Table {
 		return new Select(this.name, columns, new Order[0]);
 	}
 
+	public Select selectTop(int count, String... columns) {
+		requireColumns(columns);
+		return new Select(this.name, columns, new Order[0], count);
+	}
+
 	private void requireConditionColumns(Condition[] conditions) {
 		requireColumns(Arrays.stream(conditions)
 				.map(Condition::getColumnName)

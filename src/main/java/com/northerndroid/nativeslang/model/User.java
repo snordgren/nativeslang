@@ -21,4 +21,8 @@ public class User {
 	public String getUsername() {
 		return username;
 	}
+
+	public static String normalize(String username) {
+		return username.toLowerCase();
+	}
 }

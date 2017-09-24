@@ -2,17 +2,17 @@ package com.northerndroid.nativeslang.view;
 
 import j2html.tags.ContainerTag;
 
+import java.util.Optional;
+
 import static j2html.TagCreator.*;
 
 public class Header implements Component {
 	private final HeaderButton accountButton;
 
-	public Header(boolean isLoggedIn) {
-		if (isLoggedIn) {
-			accountButton = new HeaderButton("Sign Out", "/sign-out");
-		} else {
-			accountButton = new HeaderButton("Sign In", "/sign-in");
-		}
+	public Header(Optional<String> currentUser) {
+		accountButton = currentUser
+				.map(HeaderButton::createProfileButton)
+				.orElse(HeaderButton.createSignInButton());
 	}
 
 	public ContainerTag render() {

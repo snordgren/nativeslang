@@ -6,6 +6,7 @@ import j2html.tags.ContainerTag;
 import org.apache.commons.text.WordUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 import static j2html.TagCreator.*;
 
@@ -18,9 +19,9 @@ public class ViewPostPage extends AbstractHeadedPage {
 	public ViewPostPage(MarkdownConverter markdownConverter,
 			Post post,
 			List<Comment> comments,
-			boolean isLoggedIn,
+			Optional<String> currentUser,
 			boolean isSuperUser) {
-		super("view-post", isLoggedIn);
+		super("view-post", currentUser);
 		this.markdownConverter = markdownConverter;
 		this.comments = comments;
 		this.post = post;

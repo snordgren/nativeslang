@@ -5,6 +5,7 @@ import j2html.tags.ContainerTag;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static j2html.TagCreator.main;
 
@@ -17,8 +18,8 @@ public class LanguagePage extends AbstractHeadedPage {
 	public LanguagePage(String language,
 			List<Post> posts,
 			List<Integer> commentCounts,
-			boolean isLoggedIn) {
-		super("language", isLoggedIn);
+			Optional<String> currentUser) {
+		super("language", currentUser);
 		String uppercaseLang = Character.toUpperCase(language.charAt(0)) + language.substring(1);
 		this.commentCounts = commentCounts;
 		this.posts = posts;

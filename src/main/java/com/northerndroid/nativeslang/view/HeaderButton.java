@@ -14,6 +14,20 @@ public class HeaderButton implements Component {
 
 	@Override
 	public ContainerTag render() {
-		return a(text).withClasses("button", "header-button").withHref(url);
+		return a(text)
+				.withClasses("button", "header-button")
+				.withHref(url);
+	}
+
+	public static HeaderButton createProfileButton(String user) {
+		return new HeaderButton("Profile", "/user/" + user);
+	}
+
+	public static HeaderButton createSignInButton() {
+		return new HeaderButton("Sign In", "/sign-in");
+	}
+
+	public static HeaderButton createSignOutButton() {
+		return new HeaderButton("Sign Out", "/sign-out");
 	}
 }

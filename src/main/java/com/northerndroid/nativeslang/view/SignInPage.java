@@ -2,6 +2,8 @@ package com.northerndroid.nativeslang.view;
 
 import j2html.tags.ContainerTag;
 
+import java.util.Optional;
+
 import static j2html.TagCreator.main;
 
 public class SignInPage extends AbstractHeadedPage {
@@ -9,7 +11,7 @@ public class SignInPage extends AbstractHeadedPage {
 	private final SignInForm signInForm = new SignInForm();
 
 	public SignInPage() {
-		super("sign-in", false);
+		super("sign-in", Optional.empty());
 	}
 
 	@Override

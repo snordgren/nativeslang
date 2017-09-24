@@ -5,13 +5,14 @@ import j2html.tags.ContainerTag;
 import org.apache.commons.text.WordUtils;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static j2html.TagCreator.div;
 import static j2html.TagCreator.main;
 
 public class IndexPage extends AbstractHeadedPage {
-	public IndexPage(boolean isLoggedIn) {
-		super("index", isLoggedIn);
+	public IndexPage(Optional<String> currentUser) {
+		super("index", currentUser);
 	}
 
 	private LanguageButton createLanguageButton(String language) {

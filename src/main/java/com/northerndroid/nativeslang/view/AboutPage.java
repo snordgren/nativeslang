@@ -2,6 +2,8 @@ package com.northerndroid.nativeslang.view;
 
 import j2html.tags.ContainerTag;
 
+import java.util.Optional;
+
 import static j2html.TagCreator.main;
 
 public class AboutPage extends AbstractHeadedPage {
@@ -22,8 +24,8 @@ public class AboutPage extends AbstractHeadedPage {
 					"be about the weather, your day, or the news, and share them with " +
 					"the rest of the world!";
 
-	public AboutPage(boolean isLoggedIn) {
-		super("about", isLoggedIn);
+	public AboutPage(Optional<String> currentUser) {
+		super("about", currentUser);
 	}
 
 	@Override

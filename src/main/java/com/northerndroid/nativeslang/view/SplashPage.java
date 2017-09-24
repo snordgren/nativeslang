@@ -3,10 +3,12 @@ package com.northerndroid.nativeslang.view;
 import com.northerndroid.nativeslang.util.DesignUtil;
 import j2html.tags.ContainerTag;
 
+import java.util.Optional;
+
 import static j2html.TagCreator.*;
 
 public class SplashPage extends AbstractHeadlessPage {
-	private final Header header = new Header(false);
+	private final Header header = new Header(Optional.empty());
 	private final Footer footer = new Footer();
 
 	public SplashPage() {

@@ -42,7 +42,7 @@ public class ViewPostPage extends AbstractHeadedPage {
 				posterTag)
 				.withClass("topic");
 		ContainerTag[] commentViews = comments.stream()
-				.map(a -> new CommentView(a, markdownConverter))
+				.map(a -> new CommentView(a, markdownConverter, isSuperUser))
 				.map(CommentView::render)
 				.toArray(ContainerTag[]::new);
 		return main(topicSection,

@@ -52,7 +52,7 @@ public class CommentField implements Component {
 				.withMethod("post");
 		ContainerTag delete = a("Delete")
 				.withClasses("button", "bottom-button", "delete-button")
-				.withHref(post.getUrl() + "/delete")
+				.withHref("/post/delete/" + post.getId())
 				.withMethod("delete");
 		return (isSuperUser) ? baseForm.with(delete) : baseForm;
 	}

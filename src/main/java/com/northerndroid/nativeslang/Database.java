@@ -193,18 +193,18 @@ public class Database {
 		return template.queryForObject(sql, Integer.class) > 0;
 	}
 
+	public boolean hasComment(long id) {
+		return has(comment.selectCountWhere(isEqual("id", id)));
+	}
+
 	public boolean hasPost(long id) {
-		return template.queryForObject(
-				post.selectCountWhere(isEqual("id", id)),
-				Integer.class) > 0;
+		return has(post.selectCountWhere(isEqual("id", id)));
 	}
 
 	public boolean hasPost(String language, long id) {
-		return template.queryForObject(
-				post.selectCountWhere(
-						isEqual("language", language),
-						isEqual("id", id)),
-				Integer.class) > 0;
+		return has(post.selectCountWhere(
+				isEqual("language", language),
+				isEqual("id", id)));
 	}
 
 	public boolean hasPost(long poster, String language, String title, String desc) {
@@ -216,14 +216,11 @@ public class Database {
 	}
 
 	public boolean hasUser(String username) {
-		return template.queryForObject(
-				user.selectCountWhere(isEqual("username", username)),
-				Integer.class) > 0;
+		return has(user.selectCountWhere(isEqual("username", username)));
 	}
 
 	public boolean isCommentHidden(long comment) {
-		return template.queryForObject(hiddenComment.selectCountWhere(
-				isEqual("comment_id", comment)), Integer.class) > 0;
+		return has(hiddenComment.selectCountWhere(isEqual("comment_id", comment)));
 	}
 
 	public boolean isLoginValid(String username, String password) {
@@ -236,8 +233,7 @@ public class Database {
 	}
 
 	public boolean isPostHidden(long post) {
-		return template.queryForObject(hiddenPost.selectCountWhere(
-				isEqual("post_id", post)), Integer.class) > 0;
+		return has(hiddenPost.selectCountWhere(isEqual("post_id", post)));
 	}
 
 	public boolean isSuperUser(String username) {

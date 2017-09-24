@@ -147,19 +147,6 @@ public class EntryPoint {
 					return "";
 				};
 				service.get("/post/:id", postRoute);
-				service.get("/post/:id/delete", (req, res) -> {
-					String id = req.params(":id");
-					if (id != null
-							&& id.matches("\\d+")
-							&& isSuperUser(database, req)) {
-						long postId = Long.parseLong(id);
-						if (database.hasPost(postId)) {
-							database.createHiddenPost(postId);
-						}
-					}
-					res.redirect("/" + language);
-					return "";
-				});
 				service.get("/post/:id/*", postRoute);
 				service.post("/post/:id/comment", (req, res) -> {
 					String id = req.params(":id");
@@ -184,6 +171,34 @@ public class EntryPoint {
 					return "";
 				});
 			});
+		});
+
+		service.get("/post/delete/:id", (req, res) -> {
+			String id = req.params(":id");
+			if (id != null
+					&& id.matches("\\d+")
+					&& isSuperUser(database, req)) {
+				long postId = Long.parseLong(id);
+				if (database.hasPost(postId)) {
+					database.createHiddenPost(postId);
+				}
+			}
+			res.redirect("/");
+			return "";
+		});
+
+		service.get("/comment/delete/:id", (req, res) -> {
+			String id = req.params(":id");
+			if (id != null
+					&& id.matches("\\d+")
+					&& isSuperUser(database, req)) {
+				long postId = Long.parseLong(id);
+				if (database.hasComment(postId)) {
+					database.createHiddenComment(postId);
+				}
+			}
+			res.redirect("/");
+			return "";
 		});
 
 		service.post("/register", (req, res) -> {

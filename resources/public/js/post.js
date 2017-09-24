@@ -1,3 +1,3 @@
 function main() {
-	autosize($("#description"))
+	autosize($("#description"));
 }

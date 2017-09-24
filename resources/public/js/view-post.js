@@ -20,6 +20,7 @@ function onQuote() {
 	const postText = $("#quote-button").data("post-text");
 	area.val(area.val() + postText);
 	area.focus();
+	autosize.update(area);
 }
 
 function onStrikeThroughClick() { insert("~~"); }

@@ -121,3 +121,11 @@ blockquote {
 p.copyright {
     color: #777;
 }
+
+strong {
+	color: green;
+}
+
+del {
+	color: red;
+}

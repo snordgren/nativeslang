@@ -55,6 +55,10 @@ button.format-button {
 	min-height: 38px;
 }
 
+button.bottom-button {
+
+}
+
 #quote-button {
 	margin-right: 6px;
 }
@@ -63,12 +67,26 @@ a.lang-link {
 	color: #2200CC;
 }
 
+a.delete-button {
+	background-color: #db4422;
+	margin-left: 6px;
+}
+
+a.delete-button:hover {
+	background-color: #fb5533;
+}
+
 @media (max-width: 640px) {
-	button.bottom-button {
+	button.bottom-button, a.delete-button {
 		padding-left: 0;
 		padding-right: 0;
 		width: 49%;
 		margin-right: 0;
+	}
+
+	a.delete-button {
+		margin-left: 0;
+		margin-top: 6px;
 	}
 
 	#quote-button {

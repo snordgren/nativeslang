@@ -13,15 +13,18 @@ public class ViewPostPage extends AbstractHeadedPage {
 	private final Post post;
 	private final List<Comment> comments;
 	private final MarkdownConverter markdownConverter;
+	private final boolean isSuperUser;
 
 	public ViewPostPage(MarkdownConverter markdownConverter,
 			Post post,
 			List<Comment> comments,
-			boolean isLoggedIn) {
+			boolean isLoggedIn,
+			boolean isSuperUser) {
 		super("view-post", isLoggedIn);
 		this.markdownConverter = markdownConverter;
 		this.comments = comments;
 		this.post = post;
+		this.isSuperUser = isSuperUser;
 	}
 
 	@Override
@@ -44,7 +47,7 @@ public class ViewPostPage extends AbstractHeadedPage {
 				.toArray(ContainerTag[]::new);
 		return main(topicSection,
 				div(rawHtml(description)).withClass("description"),
-				new CommentField(post).render(),
+				new CommentField(post, isSuperUser).render(),
 				div(commentViews).withClass("comment-list"));
 	}
 }

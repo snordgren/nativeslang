@@ -31,6 +31,15 @@ public class EntryPoint {
 		return req.session().attribute("username") != null;
 	}
 
+	private static boolean isSuperUser(Database database, Request req) {
+		String username = req.session().attribute("username");
+		if (username != null) {
+			return database.isSuperUser(username);
+		}
+
+		return false;
+	}
+
 	private static Properties readProperties() {
 		Properties properties = new Properties();
 		properties.setProperty("httpPort", "8080");
@@ -129,7 +138,8 @@ public class EntryPoint {
 							return new ViewPostPage(markdownConverter,
 									post,
 									comments,
-									isLoggedIn(req)).render().toString();
+									isLoggedIn(req),
+									isSuperUser(database, req)).render().toString();
 						}
 					}
 
@@ -137,6 +147,19 @@ public class EntryPoint {
 					return "";
 				};
 				service.get("/post/:id", postRoute);
+				service.get("/post/:id/delete", (req, res) -> {
+					String id = req.params(":id");
+					if (id != null
+							&& id.matches("\\d+")
+							&& isSuperUser(database, req)) {
+						long postId = Long.parseLong(id);
+						if (database.hasPost(postId)) {
+							database.createHiddenPost(postId);
+						}
+					}
+					res.redirect("/" + language);
+					return "";
+				});
 				service.get("/post/:id/*", postRoute);
 				service.post("/post/:id/comment", (req, res) -> {
 					String id = req.params(":id");

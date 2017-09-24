@@ -19,6 +19,14 @@ public class Table {
 		return "create table if not exists " + name + " (" + columnStr + ");";
 	}
 
+	public String deleteWhere(Condition... conditions) {
+		requireConditionColumns(conditions);
+		String conditionStr = buildConditionString(conditions);
+		String result = "delete from " + name + " where " + conditionStr;
+		System.out.println(result);
+		return result;
+	}
+
 	private boolean hasColumn(String name) {
 		for (Column column : columns) {
 			if (column.getName().equals(name)) {
@@ -64,14 +72,22 @@ public class Table {
 		return new Select(this.name, columns, new Order[0]);
 	}
 
-	public String selectCountWhere(Condition... conditions) {
+	private void requireConditionColumns(Condition[] conditions) {
 		requireColumns(Arrays.stream(conditions)
 				.map(Condition::getColumnName)
 				.toArray(String[]::new));
-		String conditionStr = Arrays.stream(conditions)
+	}
+
+	private String buildConditionString(Condition[] conditions) {
+		return Arrays.stream(conditions)
 				.map(Condition::compile)
 				.reduce((a, b) -> a + " and " + b)
 				.orElse("");
+	}
+
+	public String selectCountWhere(Condition... conditions) {
+		requireConditionColumns(conditions);
+		String conditionStr = buildConditionString(conditions);
 		return "select count (*) from " + name + " where " + conditionStr;
 	}
 }

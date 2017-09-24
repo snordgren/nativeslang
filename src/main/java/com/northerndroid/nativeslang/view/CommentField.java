@@ -8,10 +8,12 @@ import static j2html.TagCreator.*;
 public class CommentField implements Component {
 	private final Post post;
 	private final String postText;
+	private final boolean isSuperUser;
 
-	public CommentField(Post post) {
+	public CommentField(Post post, boolean isSuperUser) {
 		this.post = post;
 		this.postText = ">" + post.getDescription().replace("\n", "\n>") + "\n\n";
+		this.isSuperUser = isSuperUser;
 	}
 
 	@Override
@@ -45,8 +47,13 @@ public class CommentField implements Component {
 				.attr("formaction", post.getUrl() + "/comment")
 				.withClasses("button", "bottom-button")
 				.withType("submit");
-		return form(bold, italic, strikeThrough, text, quote, submit)
+		ContainerTag baseForm = form(bold, italic, strikeThrough, text, quote, submit)
 				.withId(formId)
 				.withMethod("post");
+		ContainerTag delete = a("Delete")
+				.withClasses("button", "bottom-button", "delete-button")
+				.withHref(post.getUrl() + "/delete")
+				.withMethod("delete");
+		return (isSuperUser) ? baseForm.with(delete) : baseForm;
 	}
 }

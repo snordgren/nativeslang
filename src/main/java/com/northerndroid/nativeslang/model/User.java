@@ -25,4 +25,8 @@ public class User {
 	public static String normalize(String username) {
 		return username.toLowerCase();
 	}
+
+	public static String url(String username) {
+		return "/user/" + username;
+	}
 }

@@ -2,6 +2,7 @@ package com.northerndroid.nativeslang.view;
 
 import com.northerndroid.nativeslang.model.Comment;
 import com.northerndroid.nativeslang.model.Post;
+import com.northerndroid.nativeslang.model.User;
 import j2html.tags.ContainerTag;
 import org.apache.commons.text.WordUtils;
 
@@ -35,9 +36,11 @@ public class ViewPostPage extends AbstractHeadedPage {
 		String poster = post.getPoster().getUsername();
 		String language = post.getLanguage();
 		String capitalizedLang = WordUtils.capitalize(language);
-		ContainerTag posterTag = p(text("by " + poster + " in "), a(capitalizedLang)
-				.withClass("lang-link")
-				.withHref("/" + language));
+		ContainerTag posterTag = p(
+				text("by "),
+				a(poster).withHref(User.url(poster)),
+				text(" in "),
+				a(capitalizedLang).withClass("lang-link").withHref("/" + language));
 		ContainerTag topicSection = section(
 				h1(title),
 				posterTag)

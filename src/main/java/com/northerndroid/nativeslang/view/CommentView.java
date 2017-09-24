@@ -1,8 +1,8 @@
 package com.northerndroid.nativeslang.view;
 
 import com.northerndroid.nativeslang.model.Comment;
+import com.northerndroid.nativeslang.model.User;
 import j2html.tags.ContainerTag;
-import j2html.tags.Text;
 
 import static j2html.TagCreator.*;
 
@@ -21,14 +21,17 @@ public class CommentView implements Component {
 
 	private ContainerTag getAuthorTag() {
 		String author = comment.getUser().getUsername();
-		Text authorText = text("by " + author);
+		ContainerTag authorText = p(
+				text("by "),
+				a(author).withHref(User.url(author)))
+				.withClass("author");
 		if (isSuperUser) {
 			ContainerTag deleteAnchor = a("delete")
 					.withClass("delete-comment")
 					.withHref("/comment/delete/" + comment.getId());
-			return p(authorText, deleteAnchor).withClass("author");
+			return authorText.with(deleteAnchor);
 		} else {
-			return p(authorText).withClass("author");
+			return authorText;
 		}
 	}
 

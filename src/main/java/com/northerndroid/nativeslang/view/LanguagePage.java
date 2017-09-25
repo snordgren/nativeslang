@@ -11,7 +11,7 @@ import static j2html.TagCreator.main;
 
 public class LanguagePage extends AbstractHeadedPage {
 	private final TopicSection topicSection;
-	private final PostButton postButton;
+	private final AnchorButton postButton;
 	private final List<Post> posts;
 	private final List<Integer> commentCounts;
 
@@ -23,7 +23,9 @@ public class LanguagePage extends AbstractHeadedPage {
 		String uppercaseLang = Character.toUpperCase(language.charAt(0)) + language.substring(1);
 		this.commentCounts = commentCounts;
 		this.posts = posts;
-		postButton = new PostButton("Make a Post", "/" + language.toLowerCase() + "/post");
+		postButton = new AnchorButton("Make a Post",
+				"/" + language.toLowerCase() + "/post",
+				"post-button");
 		topicSection = new TopicSection(uppercaseLang, "Read and correct posts written in " + uppercaseLang + " here.");
 	}
 

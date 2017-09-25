@@ -15,10 +15,10 @@ public class SplashPage extends AbstractHeadlessPage {
 		super("splash");
 	}
 
-	private ContainerTag getStarted() {
-		return a("Get Started")
-				.withClasses("button", "get-started")
-				.withHref("/sign-in");
+	private AnchorButton getStarted() {
+		return new AnchorButton("Get Started",
+				"/sign-in",
+				"get-started");
 	}
 
 	private ContainerTag splashImg() {
@@ -28,7 +28,7 @@ public class SplashPage extends AbstractHeadlessPage {
 				text("Become global."));
 		ContainerTag splashContainer = div(
 				div(message).withClass("splash-container-flex"),
-				div(getStarted()).withClass("splash-container-flex"))
+				div(getStarted().render()).withClass("splash-container-flex"))
 				.withClass("splash-container");
 		return section(splashContainer)
 				.withClass("splash");
@@ -39,7 +39,8 @@ public class SplashPage extends AbstractHeadlessPage {
 		return body(header.render(),
 				splashImg(),
 				rawHtml(DesignUtil.loadHtml("splash-info")),
-				div(getStarted()).withClass("bottom-get-started-container"),
+				div(getStarted().render())
+						.withClass("bottom-get-started-container"),
 				footer.render());
 	}
 }

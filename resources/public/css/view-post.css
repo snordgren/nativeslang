@@ -68,6 +68,10 @@ a.delete-button:hover {
 	background-color: #fb5533;
 }
 
+.delete-comment {
+	margin-left: 3px;
+}
+
 @media (max-width: 640px) {
 	button.bottom-button, a.delete-button {
 		padding-left: 0;

@@ -4,6 +4,7 @@ import com.northerndroid.nativeslang.model.Comment;
 import com.northerndroid.nativeslang.model.Post;
 import com.northerndroid.nativeslang.model.User;
 import com.northerndroid.nativeslang.sql.Table;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -15,6 +16,8 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import static com.northerndroid.nativeslang.sql.SQLBuilder.*;
@@ -83,6 +86,8 @@ public class Database {
 		template.update(superUser.create());
 		template.update(user.create());
 		template.update(userDescription.create());
+
+		createAdmins();
 	}
 
 	private boolean comparePassword(String hash, String password) {
@@ -90,6 +95,28 @@ public class Database {
 			return PasswordStorage.verifyPassword(password, hash);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
+		}
+	}
+
+	private void createAdmins() {
+		try {
+			String source = IOUtils.toString(getClass()
+					.getClassLoader()
+					.getResourceAsStream("Admins.csv"), Charset.forName("UTF-8"));
+			String[] lines = source.split("\n");
+			for (String line : lines) {
+				String[] parts = line.split(",");
+				String username = parts[0];
+				String password = parts[1];
+				if (!hasUser(username)) {
+					createUser(username, password);
+				}
+				if (!isSuperUser(username)) {
+					createSuperUser(username);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -215,6 +242,10 @@ public class Database {
 				.where(isEqual("user_id", userId));
 		return template.queryForObject(query,
 				(results, row) -> results.getString("description"));
+	}
+
+	public List<User> getUserList() {
+		return template.query("select * from user", userMapper);
 	}
 
 	private boolean has(String sql) {

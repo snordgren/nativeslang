@@ -11,6 +11,7 @@ import com.northerndroid.nativeslang.view.MarkdownConverter;
 import com.northerndroid.nativeslang.view.PostPage;
 import com.northerndroid.nativeslang.view.SignInPage;
 import com.northerndroid.nativeslang.view.SplashPage;
+import com.northerndroid.nativeslang.view.UserListPage;
 import com.northerndroid.nativeslang.view.UserPage;
 import com.northerndroid.nativeslang.view.ViewPostPage;
 import com.northerndroid.nativeslang.view.commonmark.CommonmarkMarkdownConverter;
@@ -329,6 +330,18 @@ public class EntryPoint {
 
 		service.get("/sign-out", (req, res) -> {
 			req.session().removeAttribute("username");
+			res.redirect("/");
+			return "";
+		});
+
+		service.get("/user-list", (req, res) -> {
+			if (isSuperUser(database, req)) {
+				List<User> users = database.getUserList();
+				return new UserListPage(getCurrentUser(req), users)
+						.render()
+						.toString();
+			}
+
 			res.redirect("/");
 			return "";
 		});

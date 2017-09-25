@@ -1,5 +1,6 @@
-package com.northerndroid.nativeslang.view;
+package com.northerndroid.nativeslang.view.commonmark;
 
+import com.northerndroid.nativeslang.view.MarkdownConverter;
 import org.commonmark.Extension;
 import org.commonmark.ext.autolink.AutolinkExtension;
 import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension;

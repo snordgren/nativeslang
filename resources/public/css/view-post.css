@@ -55,16 +55,8 @@ button.format-button {
 	min-height: 38px;
 }
 
-button.bottom-button {
-
-}
-
 #quote-button {
 	margin-right: 6px;
-}
-
-a.lang-link {
-	color: #2200CC;
 }
 
 a.delete-button {

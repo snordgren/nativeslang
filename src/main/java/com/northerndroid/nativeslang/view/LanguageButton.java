@@ -16,6 +16,8 @@ public class LanguageButton implements Component {
 	@Override
 	public ContainerTag render() {
 		return div(a(img().withSrc(langImgUrl), h3(langName))
-				.withClass("language").withHref(langUrl)).withClass("language-container");
+				.withClass("language")
+				.withHref(langUrl))
+				.withClass("language-container");
 	}
 }

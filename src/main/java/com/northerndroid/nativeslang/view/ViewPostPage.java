@@ -38,9 +38,9 @@ public class ViewPostPage extends AbstractHeadedPage {
 		String capitalizedLang = WordUtils.capitalize(language);
 		ContainerTag posterTag = p(
 				text("by "),
-				a(poster).withHref(User.url(poster)),
+				new AnchorText(poster, User.url(poster)).render(),
 				text(" in "),
-				a(capitalizedLang).withClass("lang-link").withHref("/" + language));
+				new AnchorText(capitalizedLang, "/" + language).render());
 		ContainerTag topicSection = section(
 				h1(title),
 				posterTag)

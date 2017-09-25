@@ -23,7 +23,9 @@ public class CommentView implements Component {
 		String author = comment.getUser().getUsername();
 		ContainerTag authorText = p(
 				text("by "),
-				a(author).withHref(User.url(author)))
+				new AnchorText(author, User.url(author))
+						.render()
+						.withClass("author"))
 				.withClass("author");
 		if (isSuperUser) {
 			ContainerTag deleteAnchor = a("delete")

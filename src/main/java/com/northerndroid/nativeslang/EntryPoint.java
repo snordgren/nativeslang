@@ -5,6 +5,7 @@ import com.northerndroid.nativeslang.model.Post;
 import com.northerndroid.nativeslang.model.User;
 import com.northerndroid.nativeslang.view.AboutPage;
 import com.northerndroid.nativeslang.view.CommonmarkMarkdownConverter;
+import com.northerndroid.nativeslang.view.EditUserPage;
 import com.northerndroid.nativeslang.view.IndexPage;
 import com.northerndroid.nativeslang.view.LanguagePage;
 import com.northerndroid.nativeslang.view.MarkdownConverter;
@@ -240,6 +241,50 @@ public class EntryPoint {
 				res.redirect("/");
 				return "";
 			}
+		});
+
+		service.get("/user/edit/:name", (req, res) -> {
+			String username = req.params(":name");
+			if (username != null && database.hasUser(username)) {
+				User user = database.getUser(username);
+				String description;
+				if (database.hasUserDescription(user.getId())) {
+					description = database.getUserDescription(user.getId());
+				} else {
+					description = "This user has not yet added a description.";
+				}
+
+				String sessionUser = req.session().attribute("username");
+				boolean isSameUser = sessionUser != null
+						&& User.normalize(sessionUser).equals(
+						User.normalize(username));
+				if (isSameUser) {
+					return new EditUserPage(
+							getCurrentUser(req),
+							description)
+							.render()
+							.toString();
+				}
+			}
+
+			res.redirect("/");
+			return "";
+		});
+
+		service.post("/user/update/:name", (req, res) -> {
+			String name = req.params(":name");
+			if (name != null && database.hasUser(name)) {
+				User user = database.getUser(name);
+				Optional<String> currentUser = getCurrentUser(req);
+				String description = req.queryParams("description");
+				if (currentUser.isPresent()
+						&& currentUser.get().equalsIgnoreCase(name)
+						&& description != null) {
+					database.createUserDescription(user.getId(), description);
+				}
+			}
+			res.redirect(User.url(name));
+			return "";
 		});
 
 		service.post("/register", (req, res) -> {

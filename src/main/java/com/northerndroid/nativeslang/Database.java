@@ -147,6 +147,12 @@ public class Database {
 		}
 	}
 
+	public void createUserDescription(long userId, String description) {
+		template.update(userDescription.insert(
+				into("user_id", userId),
+				into("description", description)));
+	}
+
 	private String encryptPassword(String password) {
 		try {
 			return PasswordStorage.createHash(password);
@@ -208,7 +214,7 @@ public class Database {
 				.orderBy(descending("id"))
 				.where(isEqual("user_id", userId));
 		return template.queryForObject(query,
-				(results, row) -> results.getString("descriptionn"));
+				(results, row) -> results.getString("description"));
 	}
 
 	private boolean has(String sql) {

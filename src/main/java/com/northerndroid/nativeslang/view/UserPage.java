@@ -5,7 +5,7 @@ import j2html.tags.ContainerTag;
 
 import java.util.Optional;
 
-import static j2html.TagCreator.main;
+import static j2html.TagCreator.*;
 
 public class UserPage extends AbstractHeadedPage {
 	private final User user;
@@ -27,7 +27,13 @@ public class UserPage extends AbstractHeadedPage {
 		TopicSection topic = new TopicSection(user.getUsername(), description);
 		ContainerTag main = main(topic.render());
 		if (isSameUser) {
-			return main.with(HeaderButton.createSignOutButton().render());
+			ContainerTag editProfile = a("Edit Profile")
+					.withClass("button")
+					.withHref("/user/edit/" + user.getUsername());
+			return main
+					.with(editProfile)
+					.with(br())
+					.with(HeaderButton.createSignOutButton().render());
 		} else {
 			return main;
 		}

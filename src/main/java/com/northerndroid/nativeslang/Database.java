@@ -44,6 +44,7 @@ public class Database {
 	private final Table comment,
 			hiddenComment,
 			hiddenPost,
+			hiddenUser,
 			post,
 			superUser,
 			user,
@@ -61,6 +62,8 @@ public class Database {
 				bigint("comment_id"));
 		hiddenPost = table("hidden_post",
 				bigint("post_id"));
+		hiddenUser = table("hidden_user",
+				bigint("user_id"));
 		post = table("post",
 				bigint("id").primaryKey(),
 				bigint("poster"),
@@ -82,6 +85,7 @@ public class Database {
 		template.update(comment.create());
 		template.update(hiddenComment.create());
 		template.update(hiddenPost.create());
+		template.update(hiddenUser.create());
 		template.update(post.create());
 		template.update(superUser.create());
 		template.update(user.create());
@@ -138,6 +142,11 @@ public class Database {
 
 	public void createHiddenPost(long postId) {
 		template.update(hiddenPost.insert(into("post_id", postId)));
+	}
+
+	public void createHiddenUser(long userId) {
+		template.update(hiddenUser.insert(
+				into("user_id", userId)));
 	}
 
 	public void createPost(String language,
@@ -291,6 +300,9 @@ public class Database {
 	public boolean isLoginValid(String username, String password) {
 		if (hasUser(username)) {
 			User user = getUser(username);
+			if (isUserHidden(user.getId())) {
+				return false;
+			}
 			return comparePassword(user.getPassword(), password);
 		} else {
 			return false;
@@ -299,6 +311,10 @@ public class Database {
 
 	public boolean isPostHidden(long post) {
 		return has(hiddenPost.selectCountWhere(isEqual("post_id", post)));
+	}
+
+	public boolean isUserHidden(long userId) {
+		return has(hiddenUser.selectCountWhere(isEqual("user_id", userId)));
 	}
 
 	public boolean isSuperUser(String username) {

@@ -20,8 +20,12 @@ public class SignInForm implements Component {
 				.withPlaceholder("Password")
 				.withType("password")
 				.isRequired();
-		ContainerTag register = button("Register").withType("submit").attr("formaction", "/register");
-		ContainerTag signIn = button("Sign In").withType("submit").attr("formaction", "/sign-in");
+		ContainerTag register = button("Register")
+				.withType("submit")
+				.attr("formaction", "/user/create");
+		ContainerTag signIn = button("Sign In")
+				.withType("submit")
+				.attr("formaction", "/user/connect");
 		return form(username, br(), password, br(), register, signIn).withMethod("post");
 	}
 }

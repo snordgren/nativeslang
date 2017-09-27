@@ -1,4 +1,9 @@
-main a {
-	margin-bottom: 6px;
-	width: 100px;
+form {
+	margin-top: 6px;
+}
+
+form button, main a.button {
+	width: 200px;
+	padding-left: 0;
+	padding-right: 0;
 }

@@ -5,8 +5,7 @@ import j2html.tags.ContainerTag;
 
 import java.util.Optional;
 
-import static j2html.TagCreator.br;
-import static j2html.TagCreator.main;
+import static j2html.TagCreator.*;
 
 public class UserPage extends AbstractHeadedPage {
 	private final User user;
@@ -33,13 +32,17 @@ public class UserPage extends AbstractHeadedPage {
 			return main
 					.with(editProfile.render())
 					.with(br())
-					.with(createSignOutButton().render());
+					.with(createSignOutButton());
 		} else {
 			return main;
 		}
 	}
 
-	private static AnchorButton createSignOutButton() {
-		return new AnchorButton("Sign Out", "/sign-out");
+	private static ContainerTag createSignOutButton() {
+		ContainerTag signOut = button("Sign Out")
+				.withType("submit");
+		return form(signOut)
+				.withAction("/user/disconnect")
+				.withMethod("post");
 	}
 }

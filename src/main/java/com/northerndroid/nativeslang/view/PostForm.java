@@ -29,7 +29,8 @@ public class PostForm implements Component {
 				.attr("form", "submission-form")
 				.isRequired();
 		ContainerTag submit = button("Submit")
-				.withClass("submit-button");
+				.withClass("submit-button")
+				.withType("submit");
 		return form(attrs("#submission-form"),
 				title,
 				br(),

@@ -2,6 +2,7 @@ package com.northerndroid.nativeslang;
 
 import com.northerndroid.nativeslang.controller.CommentService;
 import com.northerndroid.nativeslang.controller.PostService;
+import com.northerndroid.nativeslang.controller.UserService;
 import com.northerndroid.nativeslang.model.Comment;
 import com.northerndroid.nativeslang.model.Post;
 import com.northerndroid.nativeslang.model.User;
@@ -157,6 +158,9 @@ public class EntryPoint {
 		CommentService commentService = new CommentService(database);
 		commentService.register(service);
 
+		UserService userService = new UserService(database);
+		userService.register(service);
+
 		service.get("/user/:name", (req, res) -> {
 			String username = req.params(":name");
 			if (username != null && database.hasUser(username)) {
@@ -167,7 +171,6 @@ public class EntryPoint {
 				} else {
 					description = "This user has not yet added a description.";
 				}
-
 
 				String sessionUser = req.session().attribute("username");
 				boolean isSameUser = sessionUser != null
@@ -225,52 +228,6 @@ public class EntryPoint {
 				}
 			}
 			res.redirect(User.url(name));
-			return "";
-		});
-
-		service.post("/register", (req, res) -> {
-			String username = req.queryParams("username");
-			String password = req.queryParams("password");
-			System.out.println("Register request received");
-			if (username == null || password == null) {
-				System.out.println("Username " + username + ", password " + password + ", one null.");
-				res.redirect("/");
-			} else if (database.hasUser(username)) {
-				System.out.println("Username unavailable.");
-				res.redirect("/");
-			} else {
-				database.createUser(username, password);
-				req.session().attribute("username", username);
-				System.out.println("Logged in successfully.");
-				res.redirect("/");
-			}
-
-			return "";
-		});
-
-		service.post("/sign-in", (req, res) -> {
-			if (isLoggedIn(req)) {
-				res.redirect("/");
-				return "";
-			} else {
-				String username = req.queryParams("username");
-				String password = req.queryParams("password");
-				if (username == null || password == null) {
-					res.redirect("/");
-				} else if (database.isLoginValid(username, password)) {
-					req.session().attribute("username", username);
-					res.redirect("/");
-				} else {
-					res.redirect("/sign-in");
-				}
-
-				return "";
-			}
-		});
-
-		service.get("/sign-out", (req, res) -> {
-			req.session().removeAttribute("username");
-			res.redirect("/");
 			return "";
 		});
 

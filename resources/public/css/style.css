@@ -133,3 +133,16 @@ del {
 a.anchor-text {
 	color: #2200CC;
 }
+
+button.textonly {
+	background-color: transparent;
+	color: inherit;
+	font-size: inherit;
+	margin: 0;
+	padding: 0;
+	display: inline;
+}
+
+button.textonly:hover {
+	cursor: pointer;
+}

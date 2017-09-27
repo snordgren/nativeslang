@@ -1,5 +1,7 @@
 package com.northerndroid.nativeslang;
 
+import com.northerndroid.nativeslang.controller.CommentService;
+import com.northerndroid.nativeslang.controller.PostService;
 import com.northerndroid.nativeslang.model.Comment;
 import com.northerndroid.nativeslang.model.Post;
 import com.northerndroid.nativeslang.model.User;
@@ -31,15 +33,15 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class EntryPoint {
-	private static Optional<String> getCurrentUser(Request req) {
+	public static Optional<String> getCurrentUser(Request req) {
 		return Optional.ofNullable(req.session().attribute("username"));
 	}
 
-	private static boolean isLoggedIn(Request req) {
+	public static boolean isLoggedIn(Request req) {
 		return getCurrentUser(req).isPresent();
 	}
 
-	private static boolean isSuperUser(Database database, Request req) {
+	public static boolean isSuperUser(Database database, Request req) {
 		String username = req.session().attribute("username");
 		if (username != null) {
 			return database.isSuperUser(username);
@@ -104,7 +106,6 @@ public class EntryPoint {
 			}
 		});
 		Arrays.stream(Application.languages).forEach(language -> {
-
 			service.get("/" + language, (req, res) -> {
 				List<Post> posts = database.getPostsByLanguage(language);
 				List<Integer> commentCounts = posts.stream()
@@ -124,23 +125,6 @@ public class EntryPoint {
 						res.redirect("/sign-in");
 						return "";
 					}
-				});
-
-				service.post("/post", (req, res) -> {
-					String title = req.queryParams("title");
-					String description = req.queryParams("description");
-					Optional<String> currentUser = getCurrentUser(req);
-					currentUser.ifPresent(username -> {
-						if (title == null) {
-							System.out.println("Title was null.");
-						} else if (description == null) {
-							System.out.println("Description was null.");
-						} else {
-							database.createPost(language.toLowerCase(), username, title, description);
-						}
-					});
-					res.redirect("/" + language.toLowerCase());
-					return "";
 				});
 
 				Route postRoute = (req, res) -> {
@@ -164,58 +148,14 @@ public class EntryPoint {
 				};
 				service.get("/post/:id", postRoute);
 				service.get("/post/:id/*", postRoute);
-				service.post("/post/:id/comment", (req, res) -> {
-					String id = req.params(":id");
-					if (!isLoggedIn(req)) {
-						res.redirect("/sign-in");
-					} else if (id.matches("\\d+")) {
-						long postId = Long.parseLong(id);
-						String username = req.session().attribute("username");
-						String text = req.queryParams("text");
-						if (username != null &&
-								text != null &&
-								database.hasUser(username) &&
-								database.hasPost(postId)) {
-							Post post = database.getPost(postId);
-							User user = database.getUser(username);
-							database.createComment(post, user, text);
-						}
-						res.redirect("/" + language.toLowerCase() + "/post/" + id);
-					} else {
-						res.redirect("/");
-					}
-					return "";
-				});
 			});
 		});
 
-		service.get("/post/delete/:id", (req, res) -> {
-			String id = req.params(":id");
-			if (id != null
-					&& id.matches("\\d+")
-					&& isSuperUser(database, req)) {
-				long postId = Long.parseLong(id);
-				if (database.hasPost(postId)) {
-					database.createHiddenPost(postId);
-				}
-			}
-			res.redirect("/");
-			return "";
-		});
+		PostService postService = new PostService(database, Application.languages);
+		postService.register(service);
 
-		service.get("/comment/delete/:id", (req, res) -> {
-			String id = req.params(":id");
-			if (id != null
-					&& id.matches("\\d+")
-					&& isSuperUser(database, req)) {
-				long postId = Long.parseLong(id);
-				if (database.hasComment(postId)) {
-					database.createHiddenComment(postId);
-				}
-			}
-			res.redirect("/");
-			return "";
-		});
+		CommentService commentService = new CommentService(database);
+		commentService.register(service);
 
 		service.get("/user/:name", (req, res) -> {
 			String username = req.params(":name");

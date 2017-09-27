@@ -51,7 +51,7 @@ public class ViewPostPage extends AbstractHeadedPage {
 				.toArray(ContainerTag[]::new);
 		return main(topicSection,
 				div(rawHtml(description)).withClass("description"),
-				new CommentField(post, isSuperUser).render(),
+				new CommentForm(post, isSuperUser).render(),
 				div(commentViews).withClass("comment-list"));
 	}
 }

@@ -6,6 +6,12 @@ import j2html.tags.EmptyTag;
 import static j2html.TagCreator.*;
 
 public class PostForm implements Component {
+	private final String language;
+
+	public PostForm(String language) {
+		this.language = language;
+	}
+
 	@Override
 	public ContainerTag render() {
 		EmptyTag title = input()
@@ -22,7 +28,15 @@ public class PostForm implements Component {
 				.attr("autocomplete", "off")
 				.attr("form", "submission-form")
 				.isRequired();
-		ContainerTag submit = button(attrs(".submit-button"), "Submit");
-		return form(attrs("#submission-form"), title, br(), description, br(), submit).withMethod("post");
+		ContainerTag submit = button("Submit")
+				.withClass("submit-button");
+		return form(attrs("#submission-form"),
+				title,
+				br(),
+				description,
+				br(),
+				submit)
+				.withAction("/" + language + "/post/create")
+				.withMethod("post");
 	}
 }

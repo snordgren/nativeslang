@@ -59,28 +59,34 @@ button.format-button {
 	margin-right: 6px;
 }
 
-a.delete-button {
+.delete-button {
 	background-color: #db4422;
 	margin-left: 6px;
 }
 
-a.delete-button:hover {
+.delete-button:hover {
 	background-color: #fb5533;
 }
 
-.delete-comment {
-	margin-left: 3px;
+p.author {
+	display: inline-block;
+}
+
+.delete-form {
+	display: inline;
+	font-size: 12px;
+	margin-left: 4px;
 }
 
 @media (max-width: 640px) {
-	button.bottom-button, a.delete-button {
+	button.bottom-button, .delete-button {
 		padding-left: 0;
 		padding-right: 0;
 		width: 49%;
 		margin-right: 0;
 	}
 
-	a.delete-button {
+	.delete-button {
 		margin-left: 0;
 		margin-top: 6px;
 	}

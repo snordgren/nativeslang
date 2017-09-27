@@ -28,10 +28,13 @@ public class CommentView implements Component {
 						.withClass("author"))
 				.withClass("author");
 		if (isSuperUser) {
-			ContainerTag deleteAnchor = a("delete")
-					.withClass("delete-comment")
-					.withHref("/comment/delete/" + comment.getId());
-			return authorText.with(deleteAnchor);
+			ContainerTag deleteButton = button("delete")
+					.withClasses("textonly", "delete-comment");
+			ContainerTag deleteForm = form(deleteButton)
+					.withAction("/comment/delete/" + comment.getId())
+					.withClass("delete-form")
+					.withMethod("post");
+			return authorText.with(deleteForm);
 		} else {
 			return authorText;
 		}

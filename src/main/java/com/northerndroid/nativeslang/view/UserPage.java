@@ -45,16 +45,10 @@ public class UserPage extends AbstractHeadedPage {
 
 	@Override
 	protected ContainerTag mainTag() {
-		if (isSuperUser && isSameUser) {
-			return basicMainTag()
-					.with(superUserTag())
-					.with(sameUserTag());
+		if (isSameUser) {
+			return basicMainTag().with(sameUserTag());
 		} else if (isSuperUser) {
-			return basicMainTag()
-					.with(superUserTag());
-		} else if (isSameUser) {
-			return basicMainTag()
-					.with(sameUserTag());
+			return basicMainTag().with(superUserTag());
 		}
 
 		return basicMainTag();

@@ -42,6 +42,7 @@ public class Database {
 
 	private final JdbcTemplate template;
 	private final Table comment,
+			commentReport,
 			hiddenComment,
 			hiddenPost,
 			hiddenUser,
@@ -58,6 +59,9 @@ public class Database {
 				bigint("post_id"),
 				bigint("user_id"),
 				varchar("text", 1024 * 5));
+		commentReport = table("comment_report",
+				bigint("user_id"),
+				bigint("comment_id"));
 		hiddenComment = table("hidden_comment",
 				bigint("comment_id"));
 		hiddenPost = table("hidden_post",
@@ -83,6 +87,7 @@ public class Database {
 				varchar("description", 1024 * 16));
 
 		template.update(comment.create());
+		template.update(commentReport.create());
 		template.update(hiddenComment.create());
 		template.update(hiddenPost.create());
 		template.update(hiddenUser.create());
@@ -118,6 +123,10 @@ public class Database {
 				if (!isSuperUser(username)) {
 					createSuperUser(username);
 				}
+				User user = getUser(username);
+				if (isUserHidden(user.getId())) {
+					deleteHiddenUser(user.getId());
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -134,6 +143,12 @@ public class Database {
 					into("user_id", user.getId()),
 					into("text", sanitizedText)));
 		}
+	}
+
+	public void createCommentReport(long userId, long commentId) {
+		template.update(commentReport.insert(
+				into("comment_id", commentId),
+				into("user_id", userId)));
 	}
 
 	public void createHiddenComment(long commentId) {
@@ -189,6 +204,11 @@ public class Database {
 				into("description", description)));
 	}
 
+	private void deleteHiddenUser(long userId) {
+		template.update(hiddenUser.deleteWhere(
+				isEqual("user_id", userId)));
+	}
+
 	private String encryptPassword(String password) {
 		try {
 			return PasswordStorage.createHash(password);
@@ -199,6 +219,13 @@ public class Database {
 
 	public int getCommentCount(long postId) {
 		return getComments(postId).size();
+	}
+
+	public int getCommentReportCount(long commentId) {
+		return template.queryForObject(
+				commentReport.selectCountWhere(
+						isEqual("comment_id", commentId)),
+				Integer.class);
 	}
 
 	public List<Comment> getComments(long postId) {
@@ -263,6 +290,12 @@ public class Database {
 
 	public boolean hasComment(long id) {
 		return has(comment.selectCountWhere(isEqual("id", id)));
+	}
+
+	public boolean hasCommentReport(long userId, long commentId) {
+		return has(commentReport.selectCountWhere(
+				isEqual("user_id", userId),
+				isEqual("comment_id", commentId)));
 	}
 
 	public boolean hasPost(long id) {

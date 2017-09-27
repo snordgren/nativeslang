@@ -21,11 +21,18 @@ public class CommentView implements Component {
 
 	private ContainerTag getAuthorTag() {
 		String author = comment.getUser().getUsername();
+		ContainerTag reportButton = button("report")
+				.withClasses("textonly", "delete-comment");
+		ContainerTag reportForm = form(reportButton)
+				.withAction("/comment/report/" + comment.getId())
+				.withClass("delete-form")
+				.withMethod("post");
 		ContainerTag authorText = p(
 				text("by "),
 				new AnchorText(author, User.url(author))
 						.render()
-						.withClass("author"))
+						.withClass("author"),
+				reportForm)
 				.withClass("author");
 		if (isSuperUser) {
 			ContainerTag deleteButton = button("delete")

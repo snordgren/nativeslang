@@ -7,3 +7,7 @@ form button, main a.button {
 	padding-left: 0;
 	padding-right: 0;
 }
+
+button {
+	margin-bottom: 6px;
+}

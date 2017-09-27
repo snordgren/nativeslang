@@ -19,6 +19,7 @@ import com.northerndroid.nativeslang.view.UserPage;
 import com.northerndroid.nativeslang.view.ViewPostPage;
 import com.northerndroid.nativeslang.view.commonmark.CommonmarkMarkdownConverter;
 import spark.Request;
+import spark.Response;
 import spark.Route;
 import spark.Service;
 
@@ -49,6 +50,16 @@ public class EntryPoint {
 		}
 
 		return false;
+	}
+
+	private static String signIn(String msg, Request req, Response res) {
+		Optional<String> currentUser = getCurrentUser(req);
+		if (currentUser.isPresent()) {
+			res.redirect("/");
+			return "";
+		} else {
+			return new SignInPage(msg).render().toString();
+		}
 	}
 
 	private static Properties readProperties() {
@@ -97,15 +108,12 @@ public class EntryPoint {
 			}
 		});
 		service.get("/about", (req, res) -> new AboutPage(getCurrentUser(req)).render().toString());
-		service.get("/sign-in", (req, res) -> {
-			Optional<String> currentUser = getCurrentUser(req);
-			if (currentUser.isPresent()) {
-				res.redirect("/");
-				return "";
-			} else {
-				return new SignInPage().render().toString();
-			}
-		});
+
+		service.get("/sign-in", (req, res) -> signIn("", req, res));
+		service.get("/sign-in/login-error", (req, res) ->
+				signIn("Wrong username or password.", req, res));
+		service.get("/sign-in/username-taken", (req, res) ->
+				signIn("Username is taken.", req, res));
 		Arrays.stream(Application.languages).forEach(language -> {
 			service.get("/" + language, (req, res) -> {
 				List<Post> posts = database.getPostsByLanguage(language);
@@ -176,11 +184,13 @@ public class EntryPoint {
 				boolean isSameUser = sessionUser != null
 						&& User.normalize(sessionUser).equals(
 						User.normalize(username));
+				boolean isSuperUser = isSuperUser(database, req);
 
 				return new UserPage(user,
 						description,
 						getCurrentUser(req),
-						isSameUser).render().toString();
+						isSameUser,
+						isSuperUser).render().toString();
 			} else {
 				res.redirect("/");
 				return "";

@@ -111,8 +111,8 @@ div.icon-container {
 
 @media (max-width: 420px) {
 	section.info {
-		margin: 5vh;
-		width: auto;
+		margin: 5vh auto;
+		width: 80%;
 	}
 
 	h2 {

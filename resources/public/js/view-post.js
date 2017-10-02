@@ -5,10 +5,17 @@ function main() {
 function insert(text) {
 	const commentTextArea = document.getElementById("comment-text-area");
 	const area = $("#comment-text-area");
-	area.val(area.val() + text + text);
-	const newPos = area.val().length - text.length;
-	commentTextArea.focus();
-	commentTextArea.setSelectionRange(newPos, newPos);
+	const commentForm = document.getElementById("comment-form");
+	const selection = window.getSelection();
+	if(false && selection.anchorNode == commentForm) {
+		console.log(selection.anchorOffset);
+		console.log(selection.extentOffset);
+	} else {
+		area.val(area.val() + text + text);
+		const newPos = area.val().length - text.length;
+		commentTextArea.focus();
+		commentTextArea.setSelectionRange(newPos, newPos);
+	}
 }
 
 function onBoldClick() { insert("**"); }

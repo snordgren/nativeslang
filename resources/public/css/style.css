@@ -114,8 +114,8 @@ footer ul li {
 blockquote {
 	margin-left: 2vw;
 	padding-left: 1vw;
-	margin-top: 3vh;
-	margin-bottom: 3vh;
+	margin-bottom: 6px;
+	margin-top: 6px;
 	border-left: 3px solid gray;
 }
 

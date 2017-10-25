@@ -8,14 +8,12 @@ import static j2html.TagCreator.*;
 
 public class CommentView implements Component {
 	private final Comment comment;
-	private final MarkdownConverter markdownConverter;
 	private final boolean isSuperUser;
 
 	public CommentView(Comment comment,
 			MarkdownConverter markdownConverter,
 			boolean isSuperUser) {
 		this.comment = comment;
-		this.markdownConverter = markdownConverter;
 		this.isSuperUser = isSuperUser;
 	}
 
@@ -50,7 +48,7 @@ public class CommentView implements Component {
 	@Override
 	public ContainerTag render() {
 		return div(
-				rawHtml(markdownConverter.convert(comment.getText())),
+				rawHtml(comment.getText()),
 				getAuthorTag())
 				.withClass("comment-view");
 	}

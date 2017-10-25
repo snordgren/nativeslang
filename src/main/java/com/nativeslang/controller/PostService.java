@@ -34,6 +34,7 @@ public class PostService {
 							text != null &&
 							database.hasUser(username)) {
 						User user = database.getUser(username);
+						System.out.println(text);
 						database.createComment(post, user, text);
 					}
 					res.redirect("/" + language.toLowerCase() + "/post/" + id);

@@ -22,6 +22,7 @@ public class CommonmarkMarkdownConverter implements MarkdownConverter {
 				.extensions(extensions)
 				.build();
 		htmlRenderer = HtmlRenderer.builder()
+				.escapeHtml(true)
 				.extensions(extensions)
 				.build();
 	}

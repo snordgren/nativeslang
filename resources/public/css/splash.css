@@ -9,9 +9,13 @@ section.splash {
 	justify-content: center;
 }
 
+section.splash h1, div.info-container h2 {
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 300;
+}
+
 section.splash h1 {
 	background-color: transparent;
-    font-family: 'PT Serif', serif;
 	color: white;
 	text-shadow: 1px 1px 2px #333;
 	text-align: center;
@@ -65,7 +69,6 @@ div.info-container {
 }
 
 div.info-container h2 {
-    font-family: 'PT Serif', serif;
     margin-top: 5vh;
 	text-align: center;
 }

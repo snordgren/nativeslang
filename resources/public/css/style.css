@@ -72,7 +72,7 @@ button, a.button {
 	padding: 0.5em 3em;
 	display: inline-block;
 	border-radius: 4px;
-	transition-duration: 0.2s;
+	transition-duration: 0.3s;
 	text-align: center;
 }
 
@@ -81,8 +81,9 @@ button:hover, a.button:hover {
 }
 
 body {
-    font-family: 'Open Sans', sans-serif;	
+    font-family: 'Open Sans', sans-serif;
 	font-size: 16px;
+	font-weight: 300;
 	line-height: 1.5;
 }
 

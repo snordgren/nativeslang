@@ -35,15 +35,6 @@ div.comment-view a:hover {
 	margin-top: 5vh;
 }
 
-#delete-button {
-	background-color: #ff420e;
-	margin-bottom: 6px;
-}
-
-#delete-button:hover {
-	background-color: #ff723e;
-}
-
 button.format-button {
 	padding: 0;
 	margin: 0;
@@ -54,12 +45,22 @@ button.format-button {
 }
 
 #quote-button {
-	margin-right: 6px;
+	margin-bottom: 6px;
+	background-color: transparent;
+	color: #46b980;
+	border: 1px solid;
+	border-color: #46b980;
+}
+
+#quote-button:hover {
+	background-color: #46b980;
+	color: white;
 }
 
 .delete-button {
 	background-color: #db4422;
 	margin-left: 6px;
+	margin-top: 6px;
 }
 
 .delete-button:hover {
@@ -82,6 +83,10 @@ p.author {
 	height: 40px;
 }
 
+textarea {
+	margin-bottom: 0;
+}
+
 @media (max-width: 640px) {
 	.bottom-button, .delete-button {
 		padding-left: 0;
@@ -91,8 +96,7 @@ p.author {
 	}
 
 	.delete-button {
-		margin-left: 0;
-		margin-top: 6px;
+		margin-left: 1.99%;
 	}
 
 	#quote-button {

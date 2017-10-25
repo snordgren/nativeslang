@@ -47,7 +47,7 @@ public class CommentForm implements Component {
 				.attr("formaction", "/post/comment/" + post.getId())
 				.withClasses("button", "bottom-button")
 				.withType("submit");
-		ContainerTag baseForm = form(quote, bold, italic, strikeThrough, text, submit)
+		ContainerTag baseForm = form(bold, italic, strikeThrough, text, quote, submit)
 				.withId(formId)
 				.withMethod("post");
 		ContainerTag delete = button("Delete")

@@ -49,9 +49,10 @@ public class ViewPostPage extends AbstractHeadedPage {
 				.map(a -> new CommentView(a, markdownConverter, isSuperUser))
 				.map(CommentView::render)
 				.toArray(ContainerTag[]::new);
+
 		return main(topicSection,
 				div(rawHtml(description)).withClass("description"),
-				new CommentForm(post, isSuperUser).render(),
-				div(commentViews).withClass("comment-list"));
+				div(commentViews).withClass("comment-list"),
+				new CommentForm(post, isSuperUser).render());
 	}
 }

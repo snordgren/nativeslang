@@ -2,17 +2,14 @@ p.author {
 	font-size: 12px;
 }
 
-div.description {
-	margin-bottom: 5vh;
-}
-
 textarea {
 	width: 100%;
 	margin-bottom: 6px;
 }
 
-div.comment-list {
-	margin-bottom: 25vh;
+div.description {
+	margin-top: 5vh;
+	margin-bottom: 10vh;
 }
 
 div.comment-view {
@@ -31,7 +28,6 @@ div.comment-view a:hover {
 }
 
 #comment-form {
-	margin-bottom: 5vh;
 	margin-top: 5vh;
 }
 
@@ -40,12 +36,14 @@ button.format-button {
 	margin: 0;
 	margin-bottom: 6px;
 	margin-right: 6px;
-	width: 40px;
+	width: 46px;
 	height: 40px;
 }
 
 #quote-button {
-	margin-bottom: 6px;
+	margin-bottom: 0px;
+	margin-right: 6px;
+	margin-top: 6px;
 	background-color: transparent;
 	color: #46b980;
 	border: 1px solid;
@@ -59,7 +57,6 @@ button.format-button {
 
 .delete-button {
 	background-color: #db4422;
-	margin-left: 6px;
 	margin-top: 6px;
 }
 
@@ -81,6 +78,14 @@ p.author {
 	padding-top: 0;
 	padding-bottom: 0;
 	height: 40px;
+	margin-top: 6px;
+	margin-right: 6px;
+	min-width: 150px;
+}
+
+section.topic h1 {
+	line-height: 1.1;
+	margin-bottom: 6px;
 }
 
 textarea {
@@ -91,15 +96,15 @@ textarea {
 	.bottom-button, .delete-button {
 		padding-left: 0;
 		padding-right: 0;
-		width: 49%;
+		width: 100%;
 		margin-right: 0;
 	}
 
 	.delete-button {
-		margin-left: 1.99%;
+
 	}
 
 	#quote-button {
-		margin-right: 2%;
+		display: block;
 	}
 }

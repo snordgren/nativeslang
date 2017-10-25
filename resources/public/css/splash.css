@@ -109,6 +109,11 @@ div.icon-container {
 	text-align: center;
 }
 
+div.splash-container-flex h1 {
+	width: 40%;
+	min-width: 80vw;
+}
+
 @media (max-width: 420px) {
 	section.info {
 		margin: 5vh auto;

@@ -23,9 +23,7 @@ public class SplashPage extends AbstractHeadlessPage {
 
 	private ContainerTag splashImg() {
 		ContainerTag message = h1(
-				text("Write in your target language,"),
-				br(),
-				text("get native feedback."));
+				text("Write in a foreign language, get native feedback."));
 		ContainerTag splashContainer = div(
 				div(message).withClass("splash-container-flex"),
 				div(getStarted().render()).withClass("splash-container-flex"))

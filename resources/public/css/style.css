@@ -81,9 +81,9 @@ button:hover, a.button:hover {
 }
 
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans', Helvetica, Arial, "Microsoft Yahei","微软雅黑", STXihei, "华文细黑", sans-serif;
 	font-size: 16px;
-	font-weight: 300;
+	font-weight: 400;
 	line-height: 1.5;
 }
 

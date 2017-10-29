@@ -19,7 +19,13 @@ public class CommentForm implements Component {
 	@Override
 	public ContainerTag render() {
 		String formId = "comment-form";
-		ContainerTag bold = button(b("B"))
+        String correctHref = "/post/" + post.getId() + "/correct";
+        ContainerTag correct = new AnchorButton("Correct", correctHref,
+                "button",
+                "bottom-button",
+                "correct")
+                .render();
+        ContainerTag bold = button(b("B"))
 				.attr("onclick", "onBoldClick();")
 				.withClass("format-button")
 				.withType("button");
@@ -47,8 +53,9 @@ public class CommentForm implements Component {
 				.attr("formaction", "/post/comment/" + post.getId())
 				.withClasses("button", "bottom-button")
 				.withType("submit");
-		ContainerTag baseForm = form(bold, italic, strikeThrough, text, quote, submit)
-				.withId(formId)
+        ContainerTag baseForm = form(correct, br(), bold, italic, strikeThrough, text,
+                quote, submit)
+                .withId(formId)
 				.withMethod("post");
 		ContainerTag delete = button("Delete")
 				.attr("formaction", "/post/delete/" + post.getId())

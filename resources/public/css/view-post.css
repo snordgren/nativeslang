@@ -92,7 +92,13 @@ textarea {
 	margin-bottom: 0;
 }
 
-@media (max-width: 640px) {
+a.correct {
+	padding: 0;
+	margin-bottom: 6px;
+	line-height: 40px;
+}
+
+@media (max-width: 480px) {
 	.bottom-button, .delete-button {
 		padding-left: 0;
 		padding-right: 0;

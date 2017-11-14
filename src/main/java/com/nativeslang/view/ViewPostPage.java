@@ -14,16 +14,13 @@ import static j2html.TagCreator.*;
 public class ViewPostPage extends AbstractHeadedPage {
 	private final Post post;
 	private final List<Comment> comments;
-	private final MarkdownConverter markdownConverter;
 	private final boolean isSuperUser;
 
-	public ViewPostPage(MarkdownConverter markdownConverter,
-			Post post,
+	public ViewPostPage(Post post,
 			List<Comment> comments,
 			Optional<String> currentUser,
 			boolean isSuperUser) {
 		super("view-post", currentUser);
-		this.markdownConverter = markdownConverter;
 		this.comments = comments;
 		this.post = post;
 		this.isSuperUser = isSuperUser;
@@ -32,7 +29,7 @@ public class ViewPostPage extends AbstractHeadedPage {
 	@Override
 	protected ContainerTag mainTag() {
 		String title = post.getTitle();
-		String description = markdownConverter.convert(post.getDescription());
+		String description = post.getDescription();
 		String poster = post.getPoster().getUsername();
 		String language = post.getLanguage();
 		String capitalizedLang = WordUtils.capitalize(language);
@@ -46,7 +43,7 @@ public class ViewPostPage extends AbstractHeadedPage {
 				posterTag)
 				.withClass("topic");
 		ContainerTag[] commentViews = comments.stream()
-				.map(a -> new CommentView(a, markdownConverter, isSuperUser))
+				.map(a -> new CommentView(a, isSuperUser))
 				.map(CommentView::render)
 				.toArray(ContainerTag[]::new);
 

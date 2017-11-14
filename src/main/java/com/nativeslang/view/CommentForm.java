@@ -24,7 +24,8 @@ public class CommentForm implements Component {
                 "button",
                 "bottom-button",
                 "correct")
-                .render();
+                .render()
+                .withId("correct-button");
         ContainerTag bold = button(b("B"))
 				.attr("onclick", "onBoldClick();")
 				.withClass("format-button")

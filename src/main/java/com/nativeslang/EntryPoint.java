@@ -10,14 +10,12 @@ import com.nativeslang.view.AboutPage;
 import com.nativeslang.view.EditUserPage;
 import com.nativeslang.view.IndexPage;
 import com.nativeslang.view.LanguagePage;
-import com.nativeslang.view.MarkdownConverter;
 import com.nativeslang.view.PostPage;
 import com.nativeslang.view.SignInPage;
 import com.nativeslang.view.SplashPage;
 import com.nativeslang.view.UserListPage;
 import com.nativeslang.view.UserPage;
 import com.nativeslang.view.ViewPostPage;
-import com.nativeslang.view.commonmark.CommonmarkMarkdownConverter;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -89,7 +87,6 @@ public class EntryPoint {
 
 	private static void create(Database database, Service service) {
 		final long expireTime = 60 * 60 * 24 * 30;
-		MarkdownConverter markdownConverter = new CommonmarkMarkdownConverter();
 		service.staticFiles.externalLocation("resources/public/");
 		service.staticFiles.expireTime(expireTime);
 		service.staticFiles.header("Content-Encoding", "gzip");
@@ -144,8 +141,7 @@ public class EntryPoint {
 						if (database.hasPost(language.toLowerCase(), postId)) {
 							Post post = database.getPost(language.toLowerCase(), postId);
 							List<Comment> comments = database.getComments(post.getId());
-							return new ViewPostPage(markdownConverter,
-									post,
+							return new ViewPostPage(post,
 									comments,
 									getCurrentUser(req),
 									isSuperUser(database, req)).render().toString();

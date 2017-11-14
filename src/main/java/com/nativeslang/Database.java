@@ -4,8 +4,6 @@ import com.nativeslang.model.Comment;
 import com.nativeslang.model.Post;
 import com.nativeslang.model.User;
 import com.nativeslang.sql.Table;
-import com.nativeslang.view.MarkdownConverter;
-import com.nativeslang.view.commonmark.CommonmarkMarkdownConverter;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.Jsoup;
@@ -52,9 +50,6 @@ public class Database {
 			superUser,
 			user,
 			userDescription;
-
-	private final MarkdownConverter markdownConverter =
-			new CommonmarkMarkdownConverter();
 
 	private Database(DataSource dataSource) {
 		template = new JdbcTemplate(dataSource);
@@ -141,7 +136,7 @@ public class Database {
 	public void createComment(Post post,
 			User user,
 			String text) {
-		String sanitizedText = markdownConverter.convert(text);
+		String sanitizedText = sanitize(text);
 		if (!sanitizedText.isEmpty()) {
 			template.update(comment.insert(
 					into("post_id", post.getId()),

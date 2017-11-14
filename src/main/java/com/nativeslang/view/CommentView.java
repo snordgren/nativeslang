@@ -11,7 +11,6 @@ public class CommentView implements Component {
 	private final boolean isSuperUser;
 
 	public CommentView(Comment comment,
-			MarkdownConverter markdownConverter,
 			boolean isSuperUser) {
 		this.comment = comment;
 		this.isSuperUser = isSuperUser;

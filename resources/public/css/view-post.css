@@ -42,6 +42,9 @@ button.format-button {
 
 #quote-button {
 	margin-bottom: 0px;
+}
+
+#quote-button, #correct-button {
 	margin-right: 6px;
 	margin-top: 6px;
 	background-color: transparent;
@@ -50,7 +53,7 @@ button.format-button {
 	border-color: #46b980;
 }
 
-#quote-button:hover {
+#quote-button:hover, #correct-button:hover {
 	background-color: #46b980;
 	color: white;
 }

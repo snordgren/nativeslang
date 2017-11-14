@@ -47,7 +47,7 @@ public class CommentView implements Component {
 	@Override
 	public ContainerTag render() {
 		return div(
-				rawHtml(comment.getText()),
+				p(comment.getText()).withClass("comment-text"),
 				getAuthorTag())
 				.withClass("comment-view");
 	}

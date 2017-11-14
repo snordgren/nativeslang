@@ -101,6 +101,9 @@ a.correct {
 	line-height: 40px;
 }
 
+p.comment-text {
+}
+
 @media (max-width: 480px) {
 	.bottom-button, .delete-button {
 		padding-left: 0;

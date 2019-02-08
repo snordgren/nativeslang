@@ -8,6 +8,16 @@ j2html. If I had started this project today, I would not have used this stack.
 
 While the backend isn't so impressive, I'm happy with the design.
 
+## Download and run
+Clone the git repository and use `gradle run` to start the server.
+
+    $ git clone https://github.com/snordgren/nativeslang.git
+    $ cd nativeslang
+    $ gradle run
+    
+This will start the server on port 8080. Open your favorite web browser and visit `localhost:8080` to browse your local version of the site. The CSS supports mobile screens, try resizing your browser to test different resolutions. 
+
+## Screenshots
 ![Screenshot 1](screenshots/0.png)
 ![Screenshot 2](screenshots/1.png)
 ![Screenshot 3](screenshots/2.png)

@@ -10,7 +10,7 @@ public class CommentForm implements Component {
 	private final String postText;
 	private final boolean isSuperUser;
 
-	public CommentForm(Post post, boolean isSuperUser) {
+	CommentForm(Post post, boolean isSuperUser) {
 		this.post = post;
 		this.postText = ">" + post.getDescription().replace("\n", "\n>") + "\n\n";
 		this.isSuperUser = isSuperUser;
@@ -19,13 +19,6 @@ public class CommentForm implements Component {
 	@Override
 	public ContainerTag render() {
 		String formId = "comment-form";
-        String correctHref = "/post/" + post.getId() + "/correct";
-        ContainerTag correct = new AnchorButton("Correct", correctHref,
-                "button",
-                "bottom-button",
-                "correct")
-                .render()
-                .withId("correct-button");
         ContainerTag bold = button(b("B"))
 				.attr("onclick", "onBoldClick();")
 				.withClass("format-button")
@@ -54,7 +47,7 @@ public class CommentForm implements Component {
 				.attr("formaction", "/post/comment/" + post.getId())
 				.withClasses("button", "bottom-button")
 				.withType("submit");
-        ContainerTag baseForm = form(correct, br(), bold, italic, strikeThrough, text,
+        ContainerTag baseForm = form(bold, italic, strikeThrough, text,
                 quote, submit)
                 .withId(formId)
 				.withMethod("post");

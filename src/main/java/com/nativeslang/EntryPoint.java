@@ -63,10 +63,6 @@ public class EntryPoint {
 	private static Properties readProperties() {
 		Properties properties = new Properties();
 		properties.setProperty("httpPort", "8080");
-		properties.setProperty("httpsPort", "8181");
-		properties.setProperty("ssl", "true");
-		properties.setProperty("keystoreFile", "/etc/letsencrypt/live/nativeslang.com/keystore.p12");
-		properties.setProperty("keystorePassword", "password");
 		File file = new File("properties.xml");
 		if (file.exists()) {
 			try {
@@ -260,19 +256,7 @@ public class EntryPoint {
 
 		Service http = Service.ignite();
 		http.port(Integer.parseInt(properties.getProperty("httpPort")));
-		Service https = Service.ignite();
-		https.port(Integer.parseInt(properties.getProperty("httpsPort")));
-
-		if (Boolean.parseBoolean(properties.getProperty("ssl"))) {
-			https.secure(properties.getProperty("keystoreFile"),
-					properties.getProperty("keystorePassword"), null, null);
-		}
-
-		http.get("/*", (req, res) -> {
-			res.redirect("https://nativeslang.com");
-			return "";
-		});
-		create(database, https);
+		create(database, http);
 
 		new Application(database).run();
 	}

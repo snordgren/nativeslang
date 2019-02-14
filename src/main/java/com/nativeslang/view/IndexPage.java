@@ -1,6 +1,6 @@
 package com.nativeslang.view;
 
-import com.nativeslang.Application;
+import com.nativeslang.EntryPoint;
 import j2html.tags.ContainerTag;
 import org.apache.commons.text.WordUtils;
 
@@ -23,8 +23,10 @@ public class IndexPage extends AbstractHeadedPage {
 
 	@Override
 	protected ContainerTag mainTag() {
-		TopicSection topicSection = new TopicSection("Select Language", "Choose which language you want to browse posts in. This is a beta version and many languages are not yet available.");
-		ContainerTag[] languageButtons = Arrays.stream(Application.languages).map(
+		TopicSection topicSection = new TopicSection("Select Language", "Choose which " +
+			"language you want to browse posts in. This is a beta version and many " +
+            "languages are not yet available.");
+		ContainerTag[] languageButtons = Arrays.stream(EntryPoint.languages).map(
 				lang -> createLanguageButton(lang).render()).
 				toArray(ContainerTag[]::new);
 		return main(topicSection.render(), div(languageButtons));

@@ -23,9 +23,18 @@ public final class FrontEndService {
         return new AboutPage(UserOps.getCurrentUser(req)).render().toString();
     }
 
+    private static String getStartedPage(Request req, Response res) {
+        req.session().attribute("splash-seen", true);
+        return new IndexPage(UserOps.getCurrentUser(req))
+            .render()
+            .toString();
+    }
+
     private static String indexPage(Request req, Response res) {
         Optional<String> currentUser = UserOps.getCurrentUser(req);
-        if (currentUser.isPresent()) {
+        Boolean hasSeenSplashPage = req.session().attribute("splash-seen");
+
+        if ((hasSeenSplashPage != null && hasSeenSplashPage) || currentUser.isPresent()) {
             return new IndexPage(currentUser)
                 .render()
                 .toString();
@@ -52,5 +61,6 @@ public final class FrontEndService {
         service.get("/", FrontEndService::indexPage);
         service.get("/about", FrontEndService::aboutPage);
         service.get("/user-list", userList(database));
+        service.get("/get-started", FrontEndService::getStartedPage);
     }
 }

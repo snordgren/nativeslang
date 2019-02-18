@@ -17,7 +17,7 @@ public class SplashPage extends AbstractHeadlessPage {
 
 	private AnchorButton getStarted() {
 		return new AnchorButton("Get Started",
-				"/sign-in",
+				"/get-started",
 				"get-started");
 	}
 
